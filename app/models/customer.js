@@ -1,88 +1,76 @@
-// Example model
-
 var orm = require('orm'),
     db = require('orm').db;
 
+var schemas = require('./schemas');
+
 var Customer = {};
 
-Customer.schema = db.define('customers', {
-    synchronized: String,
-    id: Number,
-    username: Number
-});
+Customer.schema = schemas.customerScheme;
+
+// db.define('customers', //schemas.customerScheme
+// {
+//     id: Number,
+//     username: String
+// }
+// ); //schemas.customerScheme);
 
 Customer.add = function(data, cb) {
-    if (!data.id) {
-        return cb({
-            status: 400,
-            message: 'Required fields are missing'
-        });
-    }
-
+  console.log("!!!!" + schemas.customerScheme());
     Customer.schema.find({
             id: data.id
-        },
-        function(err, custmr) {
+        }, function(err, results) {
+          console.log(err);
             //check status
-            if (custmr.length > 0) {
+            if (results.length > 0) {
                 return cb({
                     status: 409,
                     message: 'Provided id already in use'
                 });
             }
 
-            // save an customer
-            Customer.schema.create(data, function(err, data) {
+            var newRecord = {};
+            newRecord.id = data.id;
+            newRecord.username = data.username;
+            Customer.schema.create(newRecord, function(err, results) {
                 return cb({
                     status: 201,
-                    message: data
+                    message: results
                 });
             });
+
+        //
+        //     if (!data.id) {
+        //         return cb({
+        //             status: 400,
+        //             message: 'Required fields are missing'
+        //         });
+        //     }
+        //
+        //
+        //     // save an customer
+        //     Customer.schema.create(data, function(err, data) {
+        //         return cb({
+        //             status: 201,
+        //             message: data
+        //         });
+        //     });
         });
 };
 
 
 Customer.getMany = function(data, cb) {
-    if (data.id) {
-        Customer.schema.find({
-                id: data.id,
-            },
-            function(err, custmr) {
-                if (custmr.length < 1) {
-                    return cb({
-                        status: 404,
-                        message: 'Nothing found'
-                    });
-                }
-                return cb({
-                    status: 200,
-                    message: custmr
-                });
-            });
-    }
-    if (data.username) {
-        Customer.schema.find({
-                username: data.username,
-            },
-            function(err, custmr) {
-                if (custmr.length < 1) {
-                    return cb({
-                        status: 404,
-                        message: 'Nothing found'
-                    });
-                }
-                return cb({
-                    status: 200,
-                    message: custmr
-                });
-            });
-    }
-    else {
-    return cb({
-        status: 400,
-        message: 'Bad request'
+    Customer.schema.find({
+        or: [{
+            id: data.id
+        }, {
+            username: data.username
+        }]
+    }, function(err, results) {
+        return cb({
+            status: 200,
+            message: results
+        });
     });
-  }
 };
 
 
