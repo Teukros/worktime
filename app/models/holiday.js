@@ -3,23 +3,22 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var user = {};
+var holiday = {};
 
-user.schema = schemas.users;
+holiday.schema = schemas.holidays;
 
 
-user.add = function(data, cb) {
+holiday.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(user.schema);
-    user.schema.find({
+    holiday.schema.find({
         id: data.payload.id
     }, function(err, results) {
-        console.log(err);
+
         if (err) {
             return cb({
                 status: 500,
@@ -34,13 +33,14 @@ user.add = function(data, cb) {
             });
         }
 
-        if (results.length == 1) {
+        if (results.length > 0) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
-            //TODO timestamp format
-//results[0].lastModified = Date.now();
-            results[0].save(function(err, cb) {
+            //results[0].lastModified = new Date().toISOString();
+            results[0].save(function(err) {
+                console.log(err, results[0]);
+
                 if (err) {
                     return cb({
                         status: 500,
@@ -49,10 +49,10 @@ user.add = function(data, cb) {
                 }
                 return cb({
                     status: 201,
-                    message: 'User successfully updated!'
+                    message: results[0]
                 });
             });
-
+            return;
         }
 
         var newRecord = {};
@@ -60,8 +60,9 @@ user.add = function(data, cb) {
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        user.schema.create(newRecord, function(err, results) {
+        holiday.schema.create(newRecord, function(err, results) {
             if (err) {
+                console.log(err);
                 return cb({
                     status: 500,
                     message: err
@@ -69,20 +70,16 @@ user.add = function(data, cb) {
             }
             return cb({
                 status: 201,
-                message: results
+                message: newRecord
             });
         });
     });
 };
 
 
-user.getMany = function(data, cb) {
-    user.schema.find({
-        or: [{
-            id: data.payload.id
-        }, {
-            username: data.payload.username
-        }]
+holiday.getMany = function(data, cb) {
+    holiday.schema.find({
+        id: data.payload.id
     }, function(err, results) {
         return cb({
             status: 200,
@@ -93,4 +90,4 @@ user.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = user;
+module.exports = holiday;

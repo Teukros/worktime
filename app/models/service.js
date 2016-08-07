@@ -3,20 +3,19 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var user = {};
+var service = {};
 
-user.schema = schemas.users;
+service.schema = schemas.services;
 
 
-user.add = function(data, cb) {
+service.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(user.schema);
-    user.schema.find({
+    service.schema.find({
         id: data.payload.id
     }, function(err, results) {
         console.log(err);
@@ -49,10 +48,9 @@ user.add = function(data, cb) {
                 }
                 return cb({
                     status: 201,
-                    message: 'User successfully updated!'
+                    message: 'Service successfully updated!'
                 });
             });
-
         }
 
         var newRecord = {};
@@ -60,7 +58,7 @@ user.add = function(data, cb) {
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        user.schema.create(newRecord, function(err, results) {
+        service.schema.create(newRecord, function(err, results) {
             if (err) {
                 return cb({
                     status: 500,
@@ -76,12 +74,12 @@ user.add = function(data, cb) {
 };
 
 
-user.getMany = function(data, cb) {
-    user.schema.find({
+service.getMany = function(data, cb) {
+    service.schema.find({
         or: [{
             id: data.payload.id
         }, {
-            username: data.payload.username
+            departmentId: data.payload.departmentId
         }]
     }, function(err, results) {
         return cb({
@@ -93,4 +91,4 @@ user.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = user;
+module.exports = service;

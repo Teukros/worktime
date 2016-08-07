@@ -3,20 +3,20 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var user = {};
+var department = {};
 
-user.schema = schemas.users;
+department.schema = schemas.departments;
 
 
-user.add = function(data, cb) {
+department.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(user.schema);
-    user.schema.find({
+    console.log(department.schema);
+    department.schema.find({
         id: data.payload.id
     }, function(err, results) {
         console.log(err);
@@ -38,8 +38,10 @@ user.add = function(data, cb) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
+
             //TODO timestamp format
-//results[0].lastModified = Date.now();
+            //TODO timestamp format
+            //results[0].lastModified = Date.now();
             results[0].save(function(err, cb) {
                 if (err) {
                     return cb({
@@ -49,10 +51,9 @@ user.add = function(data, cb) {
                 }
                 return cb({
                     status: 201,
-                    message: 'User successfully updated!'
+                    message: 'Department relationship successfully updated!'
                 });
             });
-
         }
 
         var newRecord = {};
@@ -60,7 +61,7 @@ user.add = function(data, cb) {
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        user.schema.create(newRecord, function(err, results) {
+        department.schema.create(newRecord, function(err, results) {
             if (err) {
                 return cb({
                     status: 500,
@@ -76,12 +77,10 @@ user.add = function(data, cb) {
 };
 
 
-user.getMany = function(data, cb) {
-    user.schema.find({
+department.getMany = function(data, cb) {
+    department.schema.find({
         or: [{
             id: data.payload.id
-        }, {
-            username: data.payload.username
         }]
     }, function(err, results) {
         return cb({
@@ -93,4 +92,4 @@ user.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = user;
+module.exports = department;

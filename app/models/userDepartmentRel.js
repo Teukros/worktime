@@ -3,20 +3,19 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var user = {};
+var userDepartmentRel = {};
 
-user.schema = schemas.users;
+userDepartmentRel.schema = schemas.userDepartmentRels;
 
 
-user.add = function(data, cb) {
+userDepartmentRel.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(user.schema);
-    user.schema.find({
+    userDepartmentRel.schema.find({
         id: data.payload.id
     }, function(err, results) {
         console.log(err);
@@ -49,18 +48,17 @@ user.add = function(data, cb) {
                 }
                 return cb({
                     status: 201,
-                    message: 'User successfully updated!'
+                    message: 'User department relationship successfully updated!'
                 });
             });
-
         }
-
         var newRecord = {};
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        user.schema.create(newRecord, function(err, results) {
+
+        userDepartmentRel.schema.create(newRecord, function(err, results) {
             if (err) {
                 return cb({
                     status: 500,
@@ -76,12 +74,14 @@ user.add = function(data, cb) {
 };
 
 
-user.getMany = function(data, cb) {
-    user.schema.find({
+userDepartmentRel.getMany = function(data, cb) {
+    userDepartmentRel.schema.find({
         or: [{
             id: data.payload.id
         }, {
-            username: data.payload.username
+            userId: data.payload.userId
+        }, {
+            departmentId: data.payload.departmentId
         }]
     }, function(err, results) {
         return cb({
@@ -93,4 +93,4 @@ user.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = user;
+module.exports = userDepartmentRel;
