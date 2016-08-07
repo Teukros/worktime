@@ -5,7 +5,7 @@ var schemas = require('./schemas');
 
 var Customer = {};
 
-Customer.schema = schemas.customerScheme;
+Customer.schema = schemas.customers;
 
 // db.define('customers', //schemas.customerScheme
 // {
@@ -15,23 +15,51 @@ Customer.schema = schemas.customerScheme;
 // ); //schemas.customerScheme);
 
 Customer.add = function(data, cb) {
-  console.log("!!!!" + schemas.customerScheme());
+      if (!data.payload.id) {
+          return cb({
+              status: 400,
+              message: 'Required fields are missing'
+          });
+      }
     Customer.schema.find({
-            id: data.id
+            id: data.payload.id
         }, function(err, results) {
           console.log(err);
+          if(error){
+            return cb({
+                status: 500,
+                message: 'Error'
+            });
+          }
             //check status
-            if (results.length > 0) {
+            if (results.length > 1) {
                 return cb({
                     status: 409,
-                    message: 'Provided id already in use'
+                    message: 'Error: Provided id is multiplied in database'
+                });
+            }
+
+            if (results.length == 1) {
+              for (var elem in data.payload){
+                results[0].elem = elem;
+              }
+              results[0].lastModified = Date.now();
+                return cb({
+                    status: 201,
+                    message: 'User successfully updated!'
                 });
             }
 
             var newRecord = {};
-            newRecord.id = data.id;
-            newRecord.username = data.username;
+            newRecord.id = data.payload.id;
+            newRecord.username = data.payload.username;
             Customer.schema.create(newRecord, function(err, results) {
+              if(error){
+                return cb({
+                    status: 500,
+                    message: 'Error'
+                });
+              }
                 return cb({
                     status: 201,
                     message: results
