@@ -37,8 +37,9 @@ service.add = function(data, cb) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
-            //TODO timestamp format
-//results[0].lastModified = Date.now();
+
+
+            results[0].lastModified = new Date().toMysqlFormat();
             results[0].save(function(err, cb) {
                 if (err) {
                     return cb({
@@ -47,13 +48,15 @@ service.add = function(data, cb) {
                     });
                 }
                 return cb({
-                    status: 201,
-                    message: 'Service successfully updated!'
+                    status: 200,
+                    message: results[0]
                 });
             });
         }
 
         var newRecord = {};
+        var timestamp = new Date();
+        newRecord.lastModified = new Date().toMysqlFormat();
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
             newRecord.field = field;

@@ -3,20 +3,20 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var department = {};
+var performedService = {};
 
-department.schema = schemas.departments;
+performedService.schema = schemas.performedServices;
 
 
-department.add = function(data, cb) {
+performedService.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(department.schema);
-    department.schema.find({
+    console.log(performedService.schema);
+    performedService.schema.find({
         id: data.payload.id
     }, function(err, results) {
         console.log(err);
@@ -39,9 +39,7 @@ department.add = function(data, cb) {
                 results[0].elem = elem;
             }
 
-
             results[0].lastModified = new Date().toMysqlFormat();
-
             results[0].save(function(err, cb) {
                 if (err) {
                     return cb({
@@ -63,7 +61,7 @@ department.add = function(data, cb) {
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        department.schema.create(newRecord, function(err, results) {
+        performedService.schema.create(newRecord, function(err, results) {
             if (err) {
                 return cb({
                     status: 500,
@@ -79,8 +77,8 @@ department.add = function(data, cb) {
 };
 
 
-department.getMany = function(data, cb) {
-    department.schema.find({
+performedService.getMany = function(data, cb) {
+    performedService.schema.find({
         or: [{
             id: data.payload.id
         }]
@@ -94,4 +92,4 @@ department.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = department;
+module.exports = performedService;

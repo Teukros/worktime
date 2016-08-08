@@ -33,14 +33,12 @@ holiday.add = function(data, cb) {
             });
         }
 
-        if (results.length > 0) {
+        if (results.length === 1) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
-            //results[0].lastModified = new Date().toISOString();
+            results[0].lastModified = new Date().toMysqlFormat();
             results[0].save(function(err) {
-                console.log(err, results[0]);
-
                 if (err) {
                     return cb({
                         status: 500,
@@ -48,7 +46,7 @@ holiday.add = function(data, cb) {
                     });
                 }
                 return cb({
-                    status: 201,
+                    status: 200,
                     message: results[0]
                 });
             });
@@ -56,13 +54,16 @@ holiday.add = function(data, cb) {
         }
 
         var newRecord = {};
+
+
+
+        newRecord.lastModified = new Date().toMysqlFormat();
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
             newRecord.field = field;
         }
         holiday.schema.create(newRecord, function(err, results) {
             if (err) {
-                console.log(err);
                 return cb({
                     status: 500,
                     message: err
@@ -70,7 +71,7 @@ holiday.add = function(data, cb) {
             }
             return cb({
                 status: 201,
-                message: newRecord
+                message: results
             });
         });
     });

@@ -9,7 +9,7 @@ Customer.schema = schemas.customers;
 
 
 Customer.add = function(data, cb) {
-    if (!data.payload.id) {
+    if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -45,8 +45,8 @@ Customer.add = function(data, cb) {
                     });
                 }
                 return cb({
-                    status: 201,
-                    message: 'Customer successfully updated!'
+                    status: 200,
+                    message: results[0]
                 });
             });
         }
