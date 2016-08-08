@@ -39,9 +39,7 @@ department.add = function(data, cb) {
                 results[0].elem = elem;
             }
 
-
             results[0].lastModified = new Date().toMysqlFormat();
-
             results[0].save(function(err, cb) {
                 if (err) {
                     return cb({

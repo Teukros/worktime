@@ -3,20 +3,20 @@ var orm = require('orm'),
 
 var schemas = require('./schemas');
 
-var dutyTypeServiceRel = {};
+var performedService = {};
 
-dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
+performedService.schema = schemas.performedServices;
 
 
-dutyTypeServiceRel.add = function(data, cb) {
+performedService.add = function(data, cb) {
     if (!data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
-    console.log(dutyTypeServiceRel.schema);
-    dutyTypeServiceRel.schema.find({
+    console.log(performedService.schema);
+    performedService.schema.find({
         id: data.payload.id
     }, function(err, results) {
         console.log(err);
@@ -61,7 +61,7 @@ dutyTypeServiceRel.add = function(data, cb) {
         for (var field in data.payload) {
             newRecord.field = field;
         }
-        dutyTypeServiceRel.schema.create(newRecord, function(err, results) {
+        performedService.schema.create(newRecord, function(err, results) {
             if (err) {
                 return cb({
                     status: 500,
@@ -77,8 +77,8 @@ dutyTypeServiceRel.add = function(data, cb) {
 };
 
 
-dutyTypeServiceRel.getMany = function(data, cb) {
-    dutyTypeServiceRel.schema.find({
+performedService.getMany = function(data, cb) {
+    performedService.schema.find({
         or: [{
             id: data.payload.id
         }]
@@ -92,4 +92,4 @@ dutyTypeServiceRel.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = dutyTypeServiceRel;
+module.exports = performedService;

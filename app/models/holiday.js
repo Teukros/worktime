@@ -54,9 +54,7 @@ holiday.add = function(data, cb) {
         }
 
         var newRecord = {};
-
-
-
+        
         newRecord.lastModified = new Date().toMysqlFormat();
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
