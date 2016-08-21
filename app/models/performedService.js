@@ -9,7 +9,10 @@ performedService.schema = schemas.performedServices;
 
 
 performedService.add = function(data, cb) {
-    if (!data.payload.id) {
+
+    var newRecord = {};
+
+    if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -36,7 +39,7 @@ performedService.add = function(data, cb) {
 
         if (results.length === 1) {
             for (var elem in data.payload) {
-                results[0].elem = elem;
+                newRecord[elem] = data.payload[elem];
             }
 
             results[0].lastModified = new Date().toMysqlFormat();
@@ -52,13 +55,13 @@ performedService.add = function(data, cb) {
                     message: results[0]
                 });
             });
-        } if (results.length === 0) {
-            var newRecord = {};
+        }
+        if (results.length === 0) {
 
             newRecord.lastModified = new Date().toMysqlFormat();
             newRecord.id = data.payload.id;
             for (var field in data.payload) {
-                newRecord.field = field;
+                newRecord[field] = data.payload[field];
             }
             performedService.schema.create(newRecord, function(err, results) {
                 if (err) {

@@ -9,6 +9,8 @@ Customer.schema = schemas.customers;
 
 
 Customer.add = function(data, cb) {
+  var newRecord = {};
+
     if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
@@ -35,7 +37,7 @@ Customer.add = function(data, cb) {
 //update
         if (results.length === 1) {
             for (var elem in data.payload) {
-                results[0].elem = elem;
+                newRecord[elem] = data.payload[elem];
             }
             results[0].lastModified = new Date().toMysqlFormat();
             results[0].save(function(err, customer) {
@@ -53,10 +55,9 @@ Customer.add = function(data, cb) {
             });
         }
 if (results.length === 0) {
-        var newRecord = {};
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
-            newRecord.field = field;
+            newRecord[field] = data.payload[field];
         }
         Customer.schema.create(newRecord, function(err, results) {
             if (err) {

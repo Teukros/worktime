@@ -9,7 +9,9 @@ userDepartmentRel.schema = schemas.userDepartmentRels;
 
 
 userDepartmentRel.add = function(data, cb) {
-    if (!data.payload.id) {
+  var newRecord = {};
+
+    if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -35,7 +37,7 @@ userDepartmentRel.add = function(data, cb) {
 
         if (results.length === 1) {
             for (var elem in data.payload) {
-                results[0].elem = elem;
+                newRecord[elem] = data.payload[elem];
             }
 
             results[0].lastModified = new Date().toMysqlFormat();
@@ -52,12 +54,11 @@ userDepartmentRel.add = function(data, cb) {
                 });
             });
         } if (results.length === 0) {
-            var newRecord = {};
             newRecord.id = data.payload.id;
 
             newRecord.lastModified = new Date().toMysqlFormat();
             for (var field in data.payload) {
-                newRecord.field = field;
+                newRecord[field] = data.payload[field];
             }
 
             userDepartmentRel.schema.create(newRecord, function(err, results) {

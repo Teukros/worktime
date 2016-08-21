@@ -9,7 +9,9 @@ dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
 
 
 dutyTypeServiceRel.add = function(data, cb) {
-    if (!data.payload.id) {
+  var newRecord = {};
+
+    if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -36,7 +38,7 @@ dutyTypeServiceRel.add = function(data, cb) {
 
         if (results.length === 1) {
             for (var elem in data.payload) {
-                results[0].elem = elem;
+                newRecord[elem] = data.payload[elem];
             }
 
             results[0].lastModified = new Date().toMysqlFormat();
@@ -54,12 +56,11 @@ dutyTypeServiceRel.add = function(data, cb) {
             });
         } if (results.length === 0) {
 
-            var newRecord = {};
 
             newRecord.lastModified = new Date().toMysqlFormat();
             newRecord.id = data.payload.id;
             for (var field in data.payload) {
-                newRecord.field = field;
+                newRecord[field] = data.payload[field];
             }
             dutyTypeServiceRel.schema.create(newRecord, function(err, results) {
                 if (err) {

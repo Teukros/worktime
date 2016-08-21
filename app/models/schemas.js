@@ -173,6 +173,9 @@ var schemas = {
         date: {
             type: 'date'
         },
+        state: {
+            type: 'number'
+        }
     }),
 
     services: db.define('services', {
