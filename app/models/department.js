@@ -34,7 +34,7 @@ department.add = function(data, cb) {
             });
         }
 
-        if (results.length == 1) {
+        if (results.length === 1) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
@@ -52,27 +52,28 @@ department.add = function(data, cb) {
                     message: results[0]
                 });
             });
-        }
+        } if (results.length === 0) {
 
-        var newRecord = {};
+            var newRecord = {};
 
-        newRecord.lastModified = new Date().toMysqlFormat();
-        newRecord.id = data.payload.id;
-        for (var field in data.payload) {
-            newRecord.field = field;
-        }
-        department.schema.create(newRecord, function(err, results) {
-            if (err) {
-                return cb({
-                    status: 500,
-                    message: err
-                });
+            newRecord.lastModified = new Date().toMysqlFormat();
+            newRecord.id = data.payload.id;
+            for (var field in data.payload) {
+                newRecord.field = field;
             }
-            return cb({
-                status: 201,
-                message: results
+            department.schema.create(newRecord, function(err, results) {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
             });
-        });
+        }
     });
 };
 

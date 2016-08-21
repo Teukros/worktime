@@ -33,7 +33,7 @@ userDepartmentRel.add = function(data, cb) {
             });
         }
 
-        if (results.length == 1) {
+        if (results.length === 1) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
@@ -51,27 +51,28 @@ userDepartmentRel.add = function(data, cb) {
                     message: results[0]
                 });
             });
-        }
-        var newRecord = {};
-        newRecord.id = data.payload.id;
+        } if (results.length === 0) {
+            var newRecord = {};
+            newRecord.id = data.payload.id;
 
-        newRecord.lastModified = new Date().toMysqlFormat();
-        for (var field in data.payload) {
-            newRecord.field = field;
-        }
-
-        userDepartmentRel.schema.create(newRecord, function(err, results) {
-            if (err) {
-                return cb({
-                    status: 500,
-                    message: err
-                });
+            newRecord.lastModified = new Date().toMysqlFormat();
+            for (var field in data.payload) {
+                newRecord.field = field;
             }
-            return cb({
-                status: 201,
-                message: results
+
+            userDepartmentRel.schema.create(newRecord, function(err, results) {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
             });
-        });
+        }
     });
 };
 

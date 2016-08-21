@@ -3,9 +3,6 @@ var resp = {};
 resp.send = function(data, res) {
     // console.log(data);
 var respObj = {};
-console.log('!!!');
-console.log(data.message);
-console.log('!!!');
 
     respObj.id = data.message.id;
     respObj.resultcode = data.status;

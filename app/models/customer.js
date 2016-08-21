@@ -18,7 +18,6 @@ Customer.add = function(data, cb) {
     Customer.schema.find({
         id: data.payload.id
     }, function(err, results) {
-        console.log(err);
         if (err) {
             return cb({
                 status: 500,
@@ -33,11 +32,13 @@ Customer.add = function(data, cb) {
             });
         }
 
-        if (results.length == 1) {
+//update
+        if (results.length === 1) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
-            results[0].save(function(err, cb) {
+            results[0].lastModified = new Date().toMysqlFormat();
+            results[0].save(function(err, customer) {
                 if (err) {
                     return cb({
                         status: 500,
@@ -46,11 +47,12 @@ Customer.add = function(data, cb) {
                 }
                 return cb({
                     status: 200,
-                    message: results[0]
+                    message: customer
+                    //message: results[0]
                 });
             });
         }
-
+if (results.length === 0) {
         var newRecord = {};
         newRecord.id = data.payload.id;
         for (var field in data.payload) {
@@ -68,6 +70,7 @@ Customer.add = function(data, cb) {
                 message: results
             });
         });
+      }
     });
 };
 

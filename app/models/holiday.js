@@ -9,14 +9,19 @@ holiday.schema = schemas.holidays;
 
 
 holiday.add = function(data, cb) {
-    if (!data.payload.id) {
+    var reqDate = data.payload.date;
+    if (!data.payload.id || !data.payload.date || !data.payload.customerId) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
         });
     }
     holiday.schema.find({
-        id: data.payload.id
+        or: [{
+            id: data.payload.id
+        }, {
+            date: data.payload.date
+        }]
     }, function(err, results) {
 
         if (err) {
@@ -29,7 +34,7 @@ holiday.add = function(data, cb) {
         if (results.length > 1) {
             return cb({
                 status: 409,
-                message: 'Error: Provided id is multiplied in database'
+                message: 'Error: Provided id or date is multiplied in database'
             });
         }
 
@@ -51,27 +56,27 @@ holiday.add = function(data, cb) {
                 });
             });
             return;
-        }
+        } if (results.length === 0) {
+            var newRecord = {};
 
-        var newRecord = {};
-        
-        newRecord.lastModified = new Date().toMysqlFormat();
-        newRecord.id = data.payload.id;
-        for (var field in data.payload) {
-            newRecord.field = field;
-        }
-        holiday.schema.create(newRecord, function(err, results) {
-            if (err) {
-                return cb({
-                    status: 500,
-                    message: err
-                });
+            newRecord.lastModified = new Date().toMysqlFormat();
+            newRecord.id = data.payload.id;
+            for (var field in data.payload) {
+                newRecord.field = field;
             }
-            return cb({
-                status: 201,
-                message: results
+            holiday.schema.create(newRecord, function(err, results) {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
             });
-        });
+        }
     });
 };
 

@@ -3,9 +3,6 @@ var orm = require('orm'),
 
 var schemas = {
     customers: db.define('customers', {
-        synchronized: {
-            type: 'number'
-        },
         datedeactivated: {
             type: 'date'
         },
@@ -13,28 +10,10 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        username: {
-            type: 'text'
-        },
-        password: {
-            type: 'text'
+        lastModified: {
+            type: 'date'
         },
         company: {
-            type: 'text'
-        },
-        salutation: {
-            type: 'number'
-        },
-        title: {
-            type: 'number'
-        },
-        name: {
-            type: 'text'
-        },
-        surname: {
-            type: 'text'
-        },
-        position: {
             type: 'text'
         },
         department: {
@@ -50,12 +29,6 @@ var schemas = {
             type: 'text'
         },
         state: {
-            type: 'text'
-        },
-        phone: {
-            type: 'text'
-        },
-        email: {
             type: 'text'
         }
     }),
@@ -181,6 +154,9 @@ var schemas = {
         id: {
             type: 'text',
             "key": true
+        },
+        customerId: {
+            type: 'text'
         },
         datedeactivated: {
             type: 'date'
@@ -320,11 +296,11 @@ var schemas = {
             type: 'date'
         },
 
-        actualstart: {
+        actualStart: {
             type: 'date'
         },
 
-        actualend: {
+        actualEnd: {
             type: 'date'
         },
 
@@ -332,35 +308,35 @@ var schemas = {
             type: 'text'
         },
 
-        serviceid: {
+        serviceId: {
             type: 'text'
         },
 
-        dutytypeid: {
+        dutyTypeId: {
             type: 'text'
         },
 
-        secsbefore: {
+        secsBefore: {
             type: 'number'
         },
 
-        secsduring: {
+        secsDuring: {
             type: 'number'
         },
 
-        secsafter: {
+        secsAfter: {
             type: 'number'
         },
 
-        perctobefore: {
+        percToBefore: {
             type: 'date'
         },
 
-        perctoduring: {
+        percToDuring: {
             type: 'date'
         },
 
-        perctoafter: {
+        percToAfter: {
             type: 'date'
         },
 
@@ -379,7 +355,7 @@ var schemas = {
             type: 'date'
         },
 
-        serviceid: {
+        serviceId: {
             type: 'text'
         },
 

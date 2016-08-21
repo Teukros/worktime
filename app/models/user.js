@@ -15,11 +15,9 @@ user.add = function(data, cb) {
             message: 'Required fields are missing'
         });
     }
-    console.log(user.schema);
     user.schema.find({
         id: data.payload.id
     }, function(err, results) {
-        console.log(err);
         if (err) {
             return cb({
                 status: 500,
@@ -34,7 +32,7 @@ user.add = function(data, cb) {
             });
         }
 
-        if (results.length == 1) {
+        if (results.length === 1) {
             for (var elem in data.payload) {
                 results[0].elem = elem;
             }
@@ -53,27 +51,29 @@ user.add = function(data, cb) {
                 });
             });
 
-        }
+        } if (results.length === 0) {
 
-        var newRecord = {};
-        newRecord.id = data.payload.id;
+            var newRecord = {};
+            //newRecord.id = data.payload.id;
 
-        newRecord.lastModified = new Date().toMysqlFormat();
-        for (var field in data.payload) {
-            newRecord.field = field;
-        }
-        user.schema.create(newRecord, function(err, results) {
-            if (err) {
-                return cb({
-                    status: 500,
-                    message: err
-                });
+            newRecord.lastModified = new Date().toMysqlFormat();
+            for (var field in data.payload) {
+                newRecord[field] = data.payload[field];
             }
-            return cb({
-                status: 201,
-                message: results
+            console.log(newRecord);
+            user.schema.create(newRecord, function(err, results) {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
             });
-        });
+        }
     });
 };
 
