@@ -9,7 +9,7 @@ user.schema = schemas.users;
 
 
 user.add = function(data, cb) {
-    if (!data.payload.id) {
+    if (!data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -34,7 +34,7 @@ user.add = function(data, cb) {
 
         if (results.length === 1) {
             for (var elem in data.payload) {
-                results[0].elem = elem;
+                newRecord[elem] = data.payload[elem];
             }
 
             results[0].lastModified = new Date().toMysqlFormat();
