@@ -11,7 +11,7 @@ userDepartmentRel.schema = schemas.userDepartmentRels;
 userDepartmentRel.add = function(data, cb) {
   var newRecord = {};
 
-    if (!data.payload || !data.payload.id) {
+    if (!data || !data.payload || !data.payload.id) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
