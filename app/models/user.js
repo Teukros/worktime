@@ -22,7 +22,7 @@ user.add = function(data, cb) {
 
 user.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, user, cb);
+    dbModel.getMany(query, 'users', cb);
 };
 
 

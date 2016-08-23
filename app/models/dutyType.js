@@ -22,7 +22,7 @@ dutyType.add = function(data, cb) {
 
 dutyType.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, dutyType, cb);
+    dbModel.getMany(query, "dutyTypes", cb);
 };
 
 

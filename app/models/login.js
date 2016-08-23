@@ -13,6 +13,7 @@ login.check = function(query, cb) {
         username: query.userId,
         customerId: query.customerId
     }, function(err, results) {
+      console.log(err);
         if (err) {
             return cb({
                 status: 500,

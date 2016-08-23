@@ -22,7 +22,7 @@ userDepartmentRel.add = function(data, cb) {
 
 userDepartmentRel.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, userDepartmentRel, cb);
+    dbModel.getMany(query, "userDepartmentRel", cb);
 };
 
 
