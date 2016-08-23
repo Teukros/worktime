@@ -44,12 +44,14 @@ Customer.add = function(data, cb) {
                 if (err) {
                     return cb({
                         status: 500,
-                        message: err
+                        message: err,
+                        customerid: data.payload.id
                     });
                 }
                 return cb({
                     status: 200,
-                    message: customer
+                    message: customer,
+                    customerid: data.payload.id
                         //message: results[0]
                 });
             });
@@ -65,15 +67,18 @@ Customer.add = function(data, cb) {
             newRecord.lastModified = new Date().toMysqlFormat();
 
             Customer.schema.create(newRecord, function(err, results) {
+              console.log(err)
                 if (err) {
                     return cb({
                         status: 500,
-                        message: err
+                        message: err,
+                        customerid: newRecord.id
                     });
                 }
                 return cb({
                     status: 201,
-                    message: results
+                    message: results,
+                    customerid: newRecord.id
                 });
             });
         }

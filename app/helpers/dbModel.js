@@ -13,7 +13,8 @@ dbModel.add = function(query, payload, model, cb) {
     if (!query || !payload) {
         return cb({
             status: 400,
-            message: 'Required fields are missing'
+            message: 'Required fields are missing',
+            customerid: query.customerid
         });
     }
 
@@ -22,14 +23,16 @@ dbModel.add = function(query, payload, model, cb) {
         if (err) {
             return cb({
                 status: 500,
-                message: err
+                message: err,
+                customerid: query.customerid
             });
         }
         //check status
         if (results.length > 1) {
             return cb({
                 status: 409,
-                message: 'Error: Provided customerid is multiplied in database'
+                message: 'Error: Provided customerid is multiplied in database',
+                customerid: query.customerid
             });
         }
         //UPDATE
@@ -47,12 +50,14 @@ dbModel.add = function(query, payload, model, cb) {
                     console.log(cb);
                     return cb({
                         status: 500,
-                        message: err
+                        message: err,
+                        customerid: query.customerid
                     });
                 }
                 return cb({
                     status: 200,
-                    message: updatedRecord
+                    message: updatedRecord,
+                    customerid: query.customerid
                 });
             });
         }
@@ -66,7 +71,8 @@ dbModel.add = function(query, payload, model, cb) {
                   console.log(results);
                     return cb({
                         status: 409,
-                        message: "Wrong customer Id"
+                        message: "Wrong customer Id",
+                        customerid: query.customerid
                     });
                 }
                 newRecord.customerid = query.customerid;
@@ -80,7 +86,8 @@ dbModel.add = function(query, payload, model, cb) {
                 if (!newRecord.id) {
                     return cb({
                         status: 409,
-                        message: "Adding to db failed - missing field id"
+                        message: "Adding to db failed - missing field id",
+                        customerid: query.customerid
                     });
                 }
                 model.schema.create(newRecord, function(err, results) {
@@ -88,12 +95,14 @@ dbModel.add = function(query, payload, model, cb) {
                         console.log(err);
                         return cb({
                             status: 500,
-                            message: err
+                            message: err,
+                            customerid: query.customerid
                         });
                     }
                     return cb({
                         status: 201,
-                        message: results
+                        message: results,
+                        customerid: query.customerid
                     });
                 });
             });
@@ -103,7 +112,8 @@ dbModel.add = function(query, payload, model, cb) {
 
 
 dbModel.getMany = function(query, model, cb) {
-    if (!query.lastModified || query.lastModified === "") {
+
+    if (!query.lastModified || query.lastModified === "" ||query.lastModified === undefined) {
         query.lastModified = 0;
     }
 

@@ -27,12 +27,14 @@ dutyTypeServiceRel.add = function(data, cb) {
                     console.log(err);
                     return cb({
                         status: 500,
-                        message: err
+                        message: err,
+                        customerid: query.customerid
                     });
                 }
                 return cb({
                     status: 201,
-                    message: results
+                    message: results,
+                    customerid: query.customerid
                 });
             });
         });
@@ -43,12 +45,14 @@ dutyTypeServiceRel.add = function(data, cb) {
                 console.log(err);
                 return cb({
                     status: 500,
-                    message: err
+                    message: err,
+                    customerid: query.customerid
                 });
             }
             return cb({
                 status: 201,
-                message: results
+                message: results,
+                customerid: query.customerid
             });
         });
     } else {

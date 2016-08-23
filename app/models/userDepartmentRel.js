@@ -4,13 +4,13 @@ var orm = require('orm'),
 var schemas = require('./schemas'),
     dbModel = require('../helpers/dbModel.js');
 
-var dutyTypeServiceRel = {},
+var userDepartmentRel = {},
     query = {};
 
-dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
+userDepartmentRel.schema = schemas.userDepartmentRels;
 
 
-dutyTypeServiceRel.add = function(data, cb) {
+userDepartmentRel.add = function(data, cb) {
     query = {};
     query.customerid = data.customerid;
     //query.id = data.id;
@@ -20,35 +20,39 @@ dutyTypeServiceRel.add = function(data, cb) {
     var deleteFlag = data.truedelete;
 
     if (deleteFlag === true) {
-        dutyTypeServiceRel.schema.find(query).remove(function(err) {
+        userDepartmentRel.schema.find(query).remove(function(err) {
 
-            dutyTypeServiceRel.schema.create(payload, function(err, results) {
+            userDepartmentRel.schema.create(payload, function(err, results) {
                 if (err) {
                     console.log(err);
                     return cb({
                         status: 500,
-                        message: err
+                        message: err,
+                        customerid: query.customerid
                     });
                 }
                 return cb({
                     status: 201,
-                    message: results
+                    message: results,
+                    customerid: query.customerid
                 });
             });
         });
     }
     if (deleteFlag === false) {
-        dutyTypeServiceRel.schema.create(payload, function(err, results) {
+        userDepartmentRel.schema.create(payload, function(err, results) {
             if (err) {
                 console.log(err);
                 return cb({
                     status: 500,
-                    message: err
+                    message: err,
+                    customerid: query.customerid
                 });
             }
             return cb({
                 status: 201,
-                message: results
+                message: results,
+                customerid: query.customerid
             });
         });
     } else {
@@ -56,7 +60,7 @@ dutyTypeServiceRel.add = function(data, cb) {
     }
 };
 
-dutyTypeServiceRel.getMany = function(data, cb) {
+userDepartmentRel.getMany = function(data, cb) {
     query.customerid = data.customerid;
     query.lastModified = data.lastModified;
 
@@ -65,4 +69,4 @@ dutyTypeServiceRel.getMany = function(data, cb) {
 
 
 // expose to app
-module.exports = dutyTypeServiceRel;
+module.exports = userDepartmentRel;

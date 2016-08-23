@@ -5,9 +5,12 @@ resp.send = function(data, res) {
     var respObj = {};
     respObj.customerid = data.customerid;
     respObj.payload = data.payload;
+    if(!data.payload){
+      respObj.payload = {}
+    }
     respObj.resultcode = data.status;
-    respObj.message = data.message;
-
+    //respObj.message = data.message;
+console.log(respObj);
     res.status(data.status)
         .set('Content-Type', 'application/json')
         .send(respObj);
