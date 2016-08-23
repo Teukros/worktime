@@ -21,6 +21,9 @@ performedService.add = function(data, cb) {
 
 
 performedService.getMany = function(data, cb) {
+    if (data.userid) {
+        query.userid = data.userid
+    }
     query.customerid = data.customerid;
     query.lastModified = data.lastModified;
     dbModel.getMany(query, "performedServices", cb);

@@ -61,6 +61,9 @@ userDepartmentRel.add = function(data, cb) {
 };
 
 userDepartmentRel.getMany = function(data, cb) {
+    if (data.userid) {
+        query.userid = data.userid
+    }
     query.customerid = data.customerid;
     query.lastModified = data.lastModified;
 
