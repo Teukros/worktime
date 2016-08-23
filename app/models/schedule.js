@@ -22,7 +22,8 @@ schedule.add = function(data, cb) {
 
 schedule.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, schedule, cb);
+    query.lastModified = data.lastModified;
+    dbModel.getMany(query, "schedules", cb);
 };
 
 

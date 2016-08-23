@@ -22,6 +22,7 @@ department.add = function(data, cb) {
 
 department.getMany = function(data, cb) {
     query.customerId = data.customerId;
+    query.lastModified = data.lastModified;
     dbModel.getMany(query, "departments", cb);
 };
 

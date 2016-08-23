@@ -22,7 +22,8 @@ dutyTypeServiceRel.add = function(data, cb) {
 
 dutyTypeServiceRel.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, dutyTypeServiceRel, cb);
+    query.lastModified = data.lastModified;
+    dbModel.getMany(query, "dutyTypeServiceRels", cb);
 };
 
 

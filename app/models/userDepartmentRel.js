@@ -22,6 +22,8 @@ userDepartmentRel.add = function(data, cb) {
 
 userDepartmentRel.getMany = function(data, cb) {
     query.customerId = data.customerId;
+    query.lastModified = data.lastModified;
+
     dbModel.getMany(query, "userDepartmentRel", cb);
 };
 

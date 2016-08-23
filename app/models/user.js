@@ -22,6 +22,7 @@ user.add = function(data, cb) {
 
 user.getMany = function(data, cb) {
     query.customerId = data.customerId;
+    query.lastModified = data.lastModified;
     dbModel.getMany(query, 'users', cb);
 };
 

@@ -22,6 +22,7 @@ dutyType.add = function(data, cb) {
 
 dutyType.getMany = function(data, cb) {
     query.customerId = data.customerId;
+    query.lastModified = data.lastModified;
     dbModel.getMany(query, "dutyTypes", cb);
 };
 

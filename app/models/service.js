@@ -22,7 +22,9 @@ service.add = function(data, cb) {
 
 service.getMany = function(data, cb) {
     query.customerId = data.customerId;
-    dbModel.getMany(query, service, cb);
+    query.lastModified = data.lastModified;
+
+    dbModel.getMany(query, "services", cb);
 };
 
 
