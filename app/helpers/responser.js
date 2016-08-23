@@ -9,7 +9,7 @@ resp.send = function(data, res) {
       respObj.payload = {}
     }
     respObj.resultcode = data.status;
-    //respObj.message = data.message;
+    respObj.message = data.message;
 console.log(respObj);
     res.status(data.status)
         .set('Content-Type', 'application/json')

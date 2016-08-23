@@ -6,10 +6,13 @@
     "start": "app.js"
   },
   "dependencies": {
+    "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "express": "^4.13.4",
     "feiertagejs": "^1.1.1",
+    "frisby": "^0.8.5",
     "jade": "~0.34.0",
+    "jasmine-node": "^1.14.5",
     "mysql": "^2.0.0-alpha8",
     "orm": "^2.1.30"
   },
