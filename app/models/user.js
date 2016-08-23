@@ -13,7 +13,7 @@ user.schema = schemas.users;
 user.add = function(data, cb) {
     var payload = data.payload,
         query = {};
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.id = data.id;
 
     dbModel.add(query, payload, user, cb);
@@ -21,7 +21,7 @@ user.add = function(data, cb) {
 
 
 user.getMany = function(data, cb) {
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.lastModified = data.lastModified;
     dbModel.getMany(query, 'users', cb);
 };

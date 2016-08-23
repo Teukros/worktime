@@ -4,32 +4,65 @@ var orm = require('orm'),
 var schemas = require('./schemas'),
     dbModel = require('../helpers/dbModel.js');
 
-var userDepartmentRel = {},
+var dutyTypeServiceRel = {},
     query = {};
 
-userDepartmentRel.schema = schemas.userDepartmentRels;
+dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
 
 
-userDepartmentRel.add = function(data, cb) {
-    var payload = data.payload,
-        query = {};
-    query.customerId = data.customerId;
-    
-    query.id = data.id;
-    query.userId = data.payload.userId;
+dutyTypeServiceRel.add = function(data, cb) {
+    query = {};
+    query.customerid = data.customerid;
+    //query.id = data.id;
+    query.userid = data.userid;
+    query.departmentid = data.payload.departmentid;
+    var payload = data.payload;
+    var deleteFlag = data.truedelete;
 
-    dbModel.add(query, payload, userDepartmentRel, cb);
+    if (deleteFlag === true) {
+        dutyTypeServiceRel.schema.find(query).remove(function(err) {
+
+            dutyTypeServiceRel.schema.create(payload, function(err, results) {
+                if (err) {
+                    console.log(err);
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
+            });
+        });
+    }
+    if (deleteFlag === false) {
+        dutyTypeServiceRel.schema.create(payload, function(err, results) {
+            if (err) {
+                console.log(err);
+                return cb({
+                    status: 500,
+                    message: err
+                });
+            }
+            return cb({
+                status: 201,
+                message: results
+            });
+        });
+    } else {
+        return;
+    }
 };
 
-
-userDepartmentRel.getMany = function(data, cb) {
-    query.customerId = data.customerId;
+dutyTypeServiceRel.getMany = function(data, cb) {
+    query.customerid = data.customerid;
     query.lastModified = data.lastModified;
 
-    dbModel.getMany(query, "userDepartmentRel", cb);
+    dbModel.getMany(query, "userDepartmentRels", cb);
 };
-
 
 
 // expose to app
-module.exports = userDepartmentRel;
+module.exports = dutyTypeServiceRel;

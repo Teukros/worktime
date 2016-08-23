@@ -17,7 +17,6 @@ dbModel.add = function(query, payload, model, cb) {
         });
     }
 
-
     model.schema.find(query, function(err, results) {
         console.log(query);
         if (err) {
@@ -30,19 +29,18 @@ dbModel.add = function(query, payload, model, cb) {
         if (results.length > 1) {
             return cb({
                 status: 409,
-                message: 'Error: Provided customerId is multiplied in database'
+                message: 'Error: Provided customerid is multiplied in database'
             });
         }
         //UPDATE
         if (results.length === 1) {
-            console.log("!!!")
             updatedRecord = results[0];
             for (var elem in payload) {
                 updatedRecord[elem] = payload[elem];
             }
 
             updatedRecord.lastModified = new Date().toMysqlFormat();
-            updatedRecord.customerId = query.customerId;
+            updatedRecord.customerid = query.customerid;
             updatedRecord.save(function(err) {
                 if (err) {
                     console.log(err);
@@ -62,7 +60,7 @@ dbModel.add = function(query, payload, model, cb) {
         //CREATE
         if (results.length === 0) {
             schemas.customers.find({
-                id: query.customerId
+                id: query.customerid
             }, function(err, results) {
                 if (results.length === 0) {
                   console.log(results);
@@ -71,12 +69,14 @@ dbModel.add = function(query, payload, model, cb) {
                         message: "Wrong customer Id"
                     });
                 }
-                newRecord.customerId = query.customerId;
+                newRecord.customerid = query.customerid;
                 newRecord.dateDeactivated = "9999-12-31 00:00:00";
                 newRecord.lastModified = new Date().toMysqlFormat();
                 for (var field in payload) {
                     newRecord[field] = payload[field];
                 }
+                console.log(newRecord)
+                console.log(payload)
                 if (!newRecord.id) {
                     return cb({
                         status: 409,
@@ -107,7 +107,7 @@ dbModel.getMany = function(query, model, cb) {
         query.lastModified = 0;
     }
 
-    db.driver.execQuery("SELECT * FROM " + model + " WHERE customerId = ? AND lastModified >= ?", [Number(query.customerId), query.lastModified], function(err, results) {
+    db.driver.execQuery("SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ?", [Number(query.customerid), query.lastModified], function(err, results) {
         if (err) {
           console.log(err);
             return cb({
@@ -119,14 +119,14 @@ dbModel.getMany = function(query, model, cb) {
             return cb({
                 status: 404,
                 payload: results,
-                customerId: query.customerId
+                customerid: query.customerid
             });
         }
         if (results.length > 0) {
             return cb({
                 status: 200,
                 payload: results,
-                customerId: query.customerId
+                customerid: query.customerid
             });
         }
     });

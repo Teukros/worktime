@@ -13,7 +13,7 @@ department.schema = schemas.departments;
 department.add = function(data, cb) {
     var payload = data.payload,
         query = {};
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.id = data.id;
 
     dbModel.add(query, payload, department, cb);
@@ -21,7 +21,7 @@ department.add = function(data, cb) {
 
 
 department.getMany = function(data, cb) {
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.lastModified = data.lastModified;
     dbModel.getMany(query, "departments", cb);
 };

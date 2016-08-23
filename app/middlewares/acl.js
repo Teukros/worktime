@@ -7,10 +7,10 @@ if (!req.body) {
                 message: 'Empty request'
             }, res);
 }
-if (!req.body.customerId) {
+if (!req.body.customerid) {
   return resp.send({
                 status: 409,
-                message: 'Missing field: customerId'
+                message: 'Missing field: customerid'
             }, res);
 }
 if (!req.body.userName) {
@@ -26,7 +26,7 @@ if (!req.body.userName) {
 //             }, res);
 // }
 
-//|| !req.body.customerId || req.body. ||  )
+//|| !req.body.customerid || req.body. ||  )
 return next();
 
 

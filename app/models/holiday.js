@@ -12,14 +12,14 @@ holiday.add = function(data, cb) {
     var newRecord = {};
 
     var reqDate = data.payload.date,
-        reqCustomerId = data.customerId,
+        reqCustomerId = data.customerid,
         reqState = data.payload.state,
         reqYear = reqDate.substring(0, 4);
 
-    if (!data.payload.id || !data.payload.date || !data.customerId || !data.payload.state) {
+    if (!data.payload.id || !data.payload.date || !data.customerid || !data.payload.state) {
         return cb({
             status: 400,
-            message: 'Required fields are missing (id, date, customerId or state)'
+            message: 'Required fields are missing (id, date, customerid or state)'
         });
     }
 
@@ -94,7 +94,7 @@ holiday.add = function(data, cb) {
     });
     return cb({
         status: 200,
-        customerId: reqCustomerId
+        customerid: reqCustomerId
     });
 };
 

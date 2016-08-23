@@ -82,7 +82,7 @@ Customer.add = function(data, cb) {
 
 
 Customer.getMany = function(query, cb) {
-    Customer.schema.find({id: query.customerId}, function(err, results) {
+    Customer.schema.find({id: query.customerid}, function(err, results) {
       if (err) {
           return cb({
               status: 500,
@@ -93,14 +93,14 @@ Customer.getMany = function(query, cb) {
           return cb({
               status: 404,
               payload: results,
-              customerId: query.customerId
+              customerid: query.customerid
           });
       }
       if (results.length > 0) {
           return cb({
               status: 200,
               payload: results,
-              customerId: query.customerId
+              customerid: query.customerid
           });
       }
     });

@@ -10,8 +10,8 @@ user.schema = schemas.users;
 login.check = function(query, cb) {
 
     user.schema.find({
-        username: query.userId,
-        customerId: query.customerId
+        username: query.userid,
+        customerid: query.customerid
     }, function(err, results) {
       console.log(err);
         if (err) {
@@ -24,14 +24,14 @@ login.check = function(query, cb) {
             return cb({
                 status: 404,
                 payload: results,
-                customerId: query.customerId
+                customerid: query.customerid
             });
         }
         if (results.length > 0) {
             return cb({
                 status: 200,
                 payload: results,
-                customerId: query.customerId
+                customerid: query.customerid
             });
         }
     });

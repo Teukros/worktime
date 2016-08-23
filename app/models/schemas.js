@@ -88,7 +88,7 @@ var schemas = {
             type: 'text'
         },
 
-        customerId: {
+        customerid: {
             type: 'text',
         }
     }),
@@ -98,7 +98,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
 
@@ -110,11 +110,11 @@ var schemas = {
             type: 'date'
         },
 
-        userId: {
+        userid: {
             type: 'text',
         },
 
-        departmentId: {
+        departmentid: {
             type: 'text',
         },
 
@@ -147,7 +147,7 @@ var schemas = {
             type: 'date'
         },
 
-        customerId: {
+        customerid: {
             type: 'text'
         },
 
@@ -158,7 +158,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
         dateDeactivated: {
@@ -186,7 +186,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
         dateDeactivated: {
@@ -197,7 +197,7 @@ var schemas = {
             type: 'date'
         },
 
-        departmentId: {
+        departmentid: {
             type: 'text'
         },
 
@@ -256,7 +256,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
         dateDeactivated: {
@@ -278,7 +278,7 @@ var schemas = {
         dateDeactivated: {
             type: 'date'
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
 
@@ -286,7 +286,7 @@ var schemas = {
             type: 'date'
         },
 
-        dutytypeid: {
+        dutyTypeid: {
             type: 'text'
         },
 
@@ -301,7 +301,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
 
@@ -321,15 +321,15 @@ var schemas = {
             type: 'date'
         },
 
-        userId: {
+        userid: {
             type: 'text'
         },
 
-        serviceId: {
+        serviceid: {
             type: 'text'
         },
 
-        dutyTypeId: {
+        dutyTypeid: {
             type: 'text'
         },
 
@@ -364,7 +364,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerId: {
+        customerid: {
             type: 'text'
         },
         dateDeactivated: {
@@ -375,7 +375,7 @@ var schemas = {
             type: 'date'
         },
 
-        serviceId: {
+        serviceid: {
             type: 'text'
         },
 

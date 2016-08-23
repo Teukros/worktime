@@ -13,7 +13,7 @@ service.schema = schemas.services;
 service.add = function(data, cb) {
     var payload = data.payload,
         query = {};
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.id = data.id;
 
     dbModel.add(query, payload, service, cb);
@@ -21,7 +21,7 @@ service.add = function(data, cb) {
 
 
 service.getMany = function(data, cb) {
-    query.customerId = data.customerId;
+    query.customerid = data.customerid;
     query.lastModified = data.lastModified;
 
     dbModel.getMany(query, "services", cb);

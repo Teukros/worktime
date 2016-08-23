@@ -96,7 +96,7 @@ holidayCalc.calc = function(reqCustomerId, reqYear, reqState, cb) {
 
                 dayToSave.name = holidaysReqYear[i].name;
                 dayToSave.date = holidaysReqYear[i].date.toMysqlFormat();
-                dayToSave.customerId = reqCustomerId;
+                dayToSave.customerid = reqCustomerId;
                 dayToSave.state = reqState;
                 dayToSave.lastModified = new Date().toMysqlFormat();
 

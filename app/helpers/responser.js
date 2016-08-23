@@ -3,7 +3,7 @@ var resp = {};
 resp.send = function(data, res) {
     // console.log(data);
     var respObj = {};
-    respObj.customerId = data.customerId;
+    respObj.customerid = data.customerid;
     respObj.payload = data.payload;
     respObj.resultcode = data.status;
     respObj.message = data.message;
