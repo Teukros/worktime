@@ -21,7 +21,7 @@ dbModel.add = function(query, payload, model, cb) {
 
         model.schema.find({
                 customerId: query.customerId,
-                id: query.id
+                id: payload.id
             }, function(err, results) {
                 console.log(err);
                 if (err) {
