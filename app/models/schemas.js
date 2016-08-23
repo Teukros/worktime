@@ -3,7 +3,7 @@ var orm = require('orm'),
 
 var schemas = {
     customers: db.define('customers', {
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
         id: {
@@ -40,7 +40,7 @@ var schemas = {
             "key": true
         },
 
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -98,8 +98,11 @@ var schemas = {
             type: 'text',
             "key": true
         },
+        customerId: {
+            type: 'text'
+        },
 
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -124,7 +127,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -158,7 +161,7 @@ var schemas = {
         customerId: {
             type: 'text'
         },
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -183,8 +186,10 @@ var schemas = {
             type: 'text',
             "key": true
         },
-
-        datedeactivated: {
+        customerId: {
+            type: 'text'
+        },
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -251,7 +256,10 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        datedeactivated: {
+        customerId: {
+            type: 'text'
+        },
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -265,10 +273,13 @@ var schemas = {
 
     }),
 
-    dutyTypeServiceRelationships: db.define('dutyTypeServiceRelationships', {
+    dutyTypeServiceRels: db.define('dutyTypeServiceRels', {
 
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
+        },
+        customerId: {
+            type: 'text'
         },
 
         lastModified: {
@@ -290,8 +301,11 @@ var schemas = {
             type: 'text',
             "key": true
         },
+        customerId: {
+            type: 'text'
+        },
 
-        datedeactivated: {
+        dateDeactivated: {
             type: 'date'
         },
 
@@ -350,7 +364,10 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        datedeactivated: {
+        customerId: {
+            type: 'text'
+        },
+        dateDeactivated: {
             type: 'date'
         },
 

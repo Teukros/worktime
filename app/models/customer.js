@@ -9,7 +9,7 @@ Customer.schema = schemas.customers;
 
 
 Customer.add = function(data, cb) {
-  var newRecord = {};
+    var newRecord = {};
 
     if (!data || !data.payload || !data.payload.id) {
         return cb({
@@ -34,7 +34,7 @@ Customer.add = function(data, cb) {
             });
         }
 
-//update
+        //update
         if (results.length === 1) {
             for (var elem in data.payload) {
                 newRecord[elem] = data.payload[elem];
@@ -50,44 +50,59 @@ Customer.add = function(data, cb) {
                 return cb({
                     status: 200,
                     message: customer
-                    //message: results[0]
+                        //message: results[0]
                 });
             });
         }
-if (results.length === 0) {
-        newRecord.id = data.payload.id;
-        for (var field in data.payload) {
-            newRecord[field] = data.payload[field];
-        }
-        Customer.schema.create(newRecord, function(err, results) {
-            if (err) {
-                return cb({
-                    status: 500,
-                    message: err
-                });
+
+        //create
+        if (results.length === 0) {
+            newRecord.id = data.payload.id;
+            newRecord.dateDeactivated = "9999-12-31 00:00:00";
+            for (var field in data.payload) {
+                newRecord[field] = data.payload[field];
             }
-            return cb({
-                status: 201,
-                message: results
+            newRecord.lastModified = new Date().toMysqlFormat();
+
+            Customer.schema.create(newRecord, function(err, results) {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
             });
-        });
-      }
+        }
     });
 };
 
 
-Customer.getMany = function(data, cb) {
-    Customer.schema.find({
-        or: [{
-            id: data.id
-        }, {
-            username: data.username
-        }]
-    }, function(err, results) {
-        return cb({
-            status: 200,
-            message: results
-        });
+Customer.getMany = function(query, cb) {
+    Customer.schema.find({id: query.customerId}, function(err, results) {
+      if (err) {
+          return cb({
+              status: 500,
+              message: err
+          });
+      }
+      if (results.length === 0) {
+          return cb({
+              status: 404,
+              payload: results,
+              customerId: query.customerId
+          });
+      }
+      if (results.length > 0) {
+          return cb({
+              status: 200,
+              payload: results,
+              customerId: query.customerId
+          });
+      }
     });
 };
 
