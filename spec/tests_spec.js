@@ -12,3 +12,14 @@ frisby.create("Set new customer")
     })
     .expectStatus(201)
     .toss();
+
+frisby.create("Set new user")
+    .waits(timeoutLength)
+    .post(url + "customer/set", {
+      "customerid": "1",
+        "payload": {
+            "id": "2"
+        }
+      })
+    .expectStatus(201)
+    .toss();

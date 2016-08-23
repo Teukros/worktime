@@ -19,7 +19,7 @@ dbModel.add = function(query, payload, model, cb) {
     }
 
     model.schema.find(query, function(err, results) {
-        console.log(query);
+
         if (err) {
             return cb({
                 status: 500,
@@ -47,7 +47,6 @@ dbModel.add = function(query, payload, model, cb) {
             updatedRecord.save(function(err) {
                 if (err) {
                     console.log(err);
-                    console.log(cb);
                     return cb({
                         status: 500,
                         message: err,
@@ -68,7 +67,6 @@ dbModel.add = function(query, payload, model, cb) {
                 id: query.customerid
             }, function(err, results) {
                 if (results.length === 0) {
-                  console.log(results);
                     return cb({
                         status: 409,
                         message: "Wrong customer Id",
@@ -81,8 +79,6 @@ dbModel.add = function(query, payload, model, cb) {
                 for (var field in payload) {
                     newRecord[field] = payload[field];
                 }
-                console.log(newRecord)
-                console.log(payload)
                 if (!newRecord.id) {
                     return cb({
                         status: 409,
