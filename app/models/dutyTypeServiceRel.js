@@ -14,6 +14,7 @@ dutyTypeServiceRel.add = function(data, cb) {
   query = {};
   query.customerId = data.customerId;
   query.id = data.id;
+  query.serviceId = data.payload.serviceId;
   // for (var i = 0; i < data.payload.length; i++) {
     var payload = data.payload;
     dbModel.add(query, payload, dutyTypeServiceRel, cb);
