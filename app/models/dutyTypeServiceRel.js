@@ -11,22 +11,53 @@ dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
 
 
 dutyTypeServiceRel.add = function(data, cb) {
-  query = {};
-  query.customerId = data.customerId;
-  query.id = data.id;
-  query.serviceId = data.payload.serviceId;
-  // for (var i = 0; i < data.payload.length; i++) {
+    query = {};
+    query.customerId = data.customerId;
+    query.id = data.id;
+    query.serviceId = data.payload.serviceId;
     var payload = data.payload;
-    dbModel.add(query, payload, dutyTypeServiceRel, cb);
-// }
+    var deleteFlag = data.truedelete;
+    if (deleteFlag === true) {
+        dutyTypeServiceRel.schema.find(query).remove(function(err) {
+            dutyTypeServiceRel.schema.create(data.payload, function(err, results) {
+                if (err) {
+                    console.log(err);
+                    return cb({
+                        status: 500,
+                        message: err
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results
+                });
+            });
+        });
+    }
+    if (deleteFlag === false){
+      dutyTypeServiceRel.schema.create(data.payload, function(err, results) {
+          if (err) {
+              console.log(err);
+              return cb({
+                  status: 500,
+                  message: err
+              });
+          }
+          return cb({
+              status: 201,
+              message: results
+          });
+      });
+    }
 };
+
 
 dutyTypeServiceRel.getMany = function(data, cb) {
     query.customerId = data.customerId;
     query.lastModified = data.lastModified;
-    dbModel.getMany(query, "dutyTypeServiceRels", cb);
-};
 
+    dbModel.getMany(query, "dutyTypeServiceRel", cb);
+};
 
 
 // expose to app

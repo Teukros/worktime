@@ -24,9 +24,7 @@ holiday.add = function(data, cb) {
     }
 
     holidayCalc.calc(reqCustomerId, reqYear, reqState, function(err, call) {
-      console.log(call);
-      console.log("call");
-      console.log(err);
+
         if (cb.status === 500) {
             return cb({
                 status: 500,

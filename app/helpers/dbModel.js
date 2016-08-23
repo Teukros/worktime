@@ -7,7 +7,6 @@ var schemas = require('../models/schemas');
 var dbModel = {};
 
 dbModel.add = function(query, payload, model, cb) {
-
     var newRecord = {},
         updatedRecord = {};
     //! or undefined
@@ -19,11 +18,8 @@ dbModel.add = function(query, payload, model, cb) {
     }
 
 
-    model.schema.find({
-        customerId: query.customerId,
-        id: query.id
-    }, function(err, results) {
-        console.log(err);
+    model.schema.find(query, function(err, results) {
+        console.log(query);
         if (err) {
             return cb({
                 status: 500,
@@ -69,6 +65,7 @@ dbModel.add = function(query, payload, model, cb) {
                 id: query.customerId
             }, function(err, results) {
                 if (results.length === 0) {
+                  console.log(results);
                     return cb({
                         status: 409,
                         message: "Wrong customer Id"
@@ -106,7 +103,7 @@ dbModel.add = function(query, payload, model, cb) {
 
 
 dbModel.getMany = function(query, model, cb) {
-    if (!query.lastModified) {
+    if (!query.lastModified || query.lastModified === "") {
         query.lastModified = 0;
     }
 

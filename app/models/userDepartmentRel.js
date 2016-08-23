@@ -14,6 +14,7 @@ userDepartmentRel.add = function(data, cb) {
     var payload = data.payload,
         query = {};
     query.customerId = data.customerId;
+    
     query.id = data.id;
     query.userId = data.payload.userId;
 
