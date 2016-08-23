@@ -14,7 +14,7 @@ department.add = function(data, cb) {
     var payload = data.payload,
         query = {};
     query.customerid = data.customerid;
-    query.id = data.id;
+    query.id = data.payload.id;
 
     dbModel.add(query, payload, department, cb);
 };
