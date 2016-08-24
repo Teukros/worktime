@@ -209,8 +209,8 @@ var schemas = {
             type: 'date'
         },
 
-        end: {
-            type: 'date'
+        duration: {
+            type: 'number'
         },
 
         staff: {
@@ -313,14 +313,30 @@ var schemas = {
             type: 'date'
         },
 
+		scheduledStart: {
+            type: 'date'
+        },
+		
         actualStart: {
             type: 'date'
         },
 
-        actualEnd: {
-            type: 'date'
+        duration: {
+            type: 'number'
         },
+		
+		isHoliday: {
+            type: 'number'
+        },	
+		
+		leadInMinutes: {
+            type: 'number'
+        },	
 
+		leadOutMinutes: {
+            type: 'number'
+        },	
+		
         userid: {
             type: 'text'
         },
@@ -333,15 +349,15 @@ var schemas = {
             type: 'text'
         },
 
-        secsBefore: {
+        minsBefore: {
             type: 'number'
         },
 
-        secsDuring: {
+        minsDuring: {
             type: 'number'
         },
 
-        secsAfter: {
+        minsAfter: {
             type: 'number'
         },
 
@@ -383,8 +399,8 @@ var schemas = {
             type: 'date'
         },
 
-        end: {
-            type: 'date'
+        duration: {
+            type: 'number'
         },
 
         staff: {
