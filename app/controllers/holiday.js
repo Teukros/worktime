@@ -10,6 +10,7 @@ var db = require('orm').db,
 apiRoutes.route('/set')
     .post(acl, function(req, res) {
         Holiday.add(req.body, function(cb) {
+          console.log(cb)
             resp.send(cb, res);
         });
     });

@@ -12,13 +12,7 @@ if (!req.body.customerid) {
                 status: 409,
                 message: 'Missing field: customerid'
             }, res);
-}
-if (!req.body.userName) {
-  return resp.send({
-                status: 409,
-                message: 'Missing field: userName'
-            }, res);
-}
+};
 // if (!req.body.password) {
 //   return resp.send({
 //                 status: 409,
