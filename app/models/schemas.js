@@ -33,7 +33,21 @@ var schemas = {
         }
     }),
 
-    users: db.define('users', {
+    settings: db.define('settings', {
+
+        customerid: {
+            type: 'text',
+            "key": true
+        },
+        settingsvalue: {
+            type: 'text',
+        },
+        settingskey: {
+            type: 'text',
+        }
+    }),
+
+        users: db.define('users', {
 
         id: {
             type: 'text',
@@ -313,10 +327,10 @@ var schemas = {
             type: 'date'
         },
 
-		scheduledStart: {
+        scheduledStart: {
             type: 'date'
         },
-		
+
         actualStart: {
             type: 'date'
         },
@@ -324,19 +338,19 @@ var schemas = {
         duration: {
             type: 'number'
         },
-		
-		isHoliday: {
-            type: 'number'
-        },	
-		
-		leadInMinutes: {
-            type: 'number'
-        },	
 
-		leadOutMinutes: {
+        isHoliday: {
             type: 'number'
-        },	
-		
+        },
+
+        leadInMinutes: {
+            type: 'number'
+        },
+
+        leadOutMinutes: {
+            type: 'number'
+        },
+
         userid: {
             type: 'text'
         },

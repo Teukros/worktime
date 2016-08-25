@@ -7,8 +7,9 @@ var app = require('../app'),
     holiday = require('../app/controllers/holiday.js'),
     login = require('../app/controllers/login.js'),
     performedService = require('../app/controllers/performedService.js'),
-    service = require('../app/controllers/service.js'),
     schedule = require('../app/controllers/schedule.js'),
+    settings = require('../app/controllers/settings.js'),
+    service = require('../app/controllers/service.js'),
     user = require('../app/controllers/user.js'),
     userDepartmentRel = require('../app/controllers/userDepartmentRel.js');
 
@@ -27,6 +28,7 @@ module.exports = function(app) {
     app.use('/performedService', performedService);
     app.use('/schedule', schedule);
     app.use('/service', service);
+    app.use('/settings', settings);
     app.use('/user', user);
     app.use('/userDepartmentRel', userDepartmentRel);
 
