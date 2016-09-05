@@ -37,9 +37,10 @@ Customer.add = function(data, cb) {
         //update
         if (results.length === 1) {
             for (var elem in data.payload) {
-                newRecord[elem] = data.payload[elem];
+                results[0][elem] = data.payload[elem];
             }
             results[0].lastModified = new Date().toMysqlFormat();
+            console.log(results[0])
             results[0].save(function(err, customer) {
                 if (err) {
                     return cb({
