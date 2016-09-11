@@ -13,7 +13,7 @@ dutyType.schema = schemas.dutyTypes;
 dutyType.add = function(data, cb) {
     var payload = data.payload,
         query = {};
-    query.customerid = data.customerid;
+    query.customerId = data.customerid;
     query.id = data.payload.id;
 
     dbModel.add(query, payload, dutyType, cb);
@@ -21,7 +21,7 @@ dutyType.add = function(data, cb) {
 
 
 dutyType.getMany = function(data, cb) {
-    query.customerid = data.customerid;
+    query.customerId = data.customerid;
     query.lastModified = data.lastModified;
     dbModel.getMany(query, "dutyTypes", cb);
 };

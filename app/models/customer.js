@@ -11,6 +11,7 @@ Customer.schema = schemas.customers;
 Customer.add = function(data, cb) {
     var newRecord = {};
 
+console.log(data);
     if (!data || !data.payload || !data.payload.id) {
         return cb({
             status: 400,
@@ -40,7 +41,6 @@ Customer.add = function(data, cb) {
                 results[0][elem] = data.payload[elem];
             }
             results[0].lastModified = new Date().toMysqlFormat();
-            console.log(results[0])
             results[0].save(function(err, customer) {
                 if (err) {
                     return cb({

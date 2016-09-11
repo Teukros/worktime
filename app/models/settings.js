@@ -21,8 +21,8 @@ settings.add = function(data, cb) {
             customerid: query.customerid
         });
     }
-    query.customerid = data.customerid;
-    query.settingskey = data.key;
+    query.customerId = data.customerid;
+    query.settingsKey = data.key;
 
     settings.schema.find(query, function(err, results) {
         if (err) {
@@ -30,7 +30,7 @@ settings.add = function(data, cb) {
             return cb({
                 status: 500,
                 message: err,
-                customerid: query.customerid
+                customerid: query.customerId
             });
         }
         //check status
@@ -38,26 +38,26 @@ settings.add = function(data, cb) {
             return cb({
                 status: 409,
                 message: 'Error: Provided setting is multiplied in database',
-                customerid: query.customerid
+                customerid: query.customerId
             });
         }
         //UPDATE
         if (results.length === 1) {
             updatedRecord = results[0];
-            updatedRecord.settingsvalue = data.value;
+            updatedRecord.settingsValue = data.value;
             updatedRecord.save(function(err) {
                 if (err) {
                     console.log(err);
                     return cb({
                         status: 500,
                         message: err,
-                        customerid: query.customerid
+                        customerid: query.customerId
                     });
                 }
                 return cb({
                     status: 200,
                     message: data,
-                    customerid: query.customerid
+                    customerid: query.customerId
                 });
             });
         }
@@ -65,9 +65,9 @@ settings.add = function(data, cb) {
         //CREATE
         if (results.length === 0) {
             newRecord = {};
-            newRecord.settingsvalue = data.value;
-            newRecord.settingskey = data.key;
-            newRecord.customerid = data.customerid;
+            newRecord.settingsValue = data.value;
+            newRecord.settingsKey = data.key;
+            newRecord.customerId = data.customerid;
 
             settings.schema.create(newRecord, function(err, results) {
                 if (err) {
@@ -75,13 +75,13 @@ settings.add = function(data, cb) {
                     return cb({
                         status: 500,
                         message: err,
-                        customerid: query.customerid
+                        customerid: query.customerId
                     });
                 }
                 return cb({
                     status: 201,
                     message: data,
-                    customerid: query.customerid
+                    customerid: query.customerId
                 });
             });
         }
@@ -89,8 +89,8 @@ settings.add = function(data, cb) {
 };
 
 settings.getMany = function(data, cb) {
-    query.customerid = data.customerid;
-    query.settingskey = data.key;
+    query.customerId = data.customerid;
+    query.settingsKey = data.key;
 
     settings.schema.find(query, function(err, results) {
         if (err) {
@@ -98,18 +98,18 @@ settings.getMany = function(data, cb) {
             return cb({
                 status: 500,
                 message: err,
-                customerid: query.customerid
+                customerid: query.customerId
             });
         }
         var answer = {
-            customerid: results[0].customerid,
-            key: results[0].settingskey,
-            value: results[0].settingsvalue
+            customerid: results[0].customerId,
+            key: results[0].settingsKey,
+            value: results[0].settingsValue
         }
         return cb({
             status: 200,
             payload: answer,
-            customerid: query.customerid
+            customerid: query.customerId
         });
     });
 };

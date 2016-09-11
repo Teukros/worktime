@@ -12,32 +12,30 @@ dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
 
 dutyTypeServiceRel.add = function(data, cb) {
     query = {};
-    query.customerid = data.customerid;
-    //query.id = data.id;
-    query.serviceid = data.payload.serviceid;
-    query.dutyTypeid = data.payload.dutyTypeid;
+    query.customerId = data.customerid;
+    query.serviceId = data.payload.serviceId;
+
     var payload = data.payload;
-    var deleteFlag = data.truedelete;
+	payload.customerId = data.customerid;
+    var deleteFlag = data.trueDelete;
 
     if (deleteFlag === true) {
-        dutyTypeServiceRel.schema.find(query).remove(function(err) {
+        dutyTypeServiceRel.schema.find(query).remove(function(err) { console.log(err); });
 
-            dutyTypeServiceRel.schema.create(payload, function(err, results) {
-                if (err) {
-                    console.log(err);
-                    return cb({
-                        status: 500,
-                        message: err,
-                        customerid: query.customerid
-                    });
-                }
-                return cb({
-                    status: 201,
-                    message: results,
-                    customerid: query.customerid
-                });
-            });
-        });
+		dutyTypeServiceRel.schema.create(payload, function(err, results) {
+			if (err) {
+				return cb({
+					status: 500,
+					message: err,
+					customerid: query.customerId
+				});
+			}
+			return cb({
+				status: 201,
+				message: results,
+				customerid: query.customerId
+			});
+		});
     }
     if (deleteFlag === false) {
         dutyTypeServiceRel.schema.create(payload, function(err, results) {
@@ -46,13 +44,13 @@ dutyTypeServiceRel.add = function(data, cb) {
                 return cb({
                     status: 500,
                     message: err,
-                    customerid: query.customerid
+                    customerid: query.customerId
                 });
             }
             return cb({
                 status: 201,
                 message: results,
-                customerid: query.customerid
+                customerid: query.customerId
             });
         });
     } else {
@@ -61,10 +59,9 @@ dutyTypeServiceRel.add = function(data, cb) {
 };
 
 dutyTypeServiceRel.getMany = function(data, cb) {
-    query.customerid = data.customerid;
-    query.lastModified = data.lastModified;
+    query.customerId = data.customerid;
 
-    dbModel.getMany(query, "dutyTypeServiceRels", cb);
+    dbModel.getRelationships(query, "dutyTypeServiceRels", cb);
 };
 
 

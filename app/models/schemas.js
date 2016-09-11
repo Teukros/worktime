@@ -22,7 +22,7 @@ var schemas = {
         address: {
             type: 'text'
         },
-        postalcode: {
+        postalCode: {
             type: 'text'
         },
         city: {
@@ -35,19 +35,19 @@ var schemas = {
 
     settings: db.define('settings', {
 
-        customerid: {
+        customerId: {
             type: 'text',
             "key": true
         },
-        settingsvalue: {
+        settingsValue: {
             type: 'text',
         },
-        settingskey: {
+        settingsKey: {
             type: 'text',
         }
     }),
 
-        users: db.define('users', {
+    users: db.define('users', {
 
         id: {
             type: 'text',
@@ -70,7 +70,7 @@ var schemas = {
             type: 'text'
         },
 
-        isadmin: {
+        isAdmin: {
             type: 'number'
         },
 
@@ -102,33 +102,34 @@ var schemas = {
             type: 'text'
         },
 
-        customerid: {
-            type: 'text',
-        }
-    }),
-
-    userDepartmentRels: db.define('userDepartmentRels', {
-        id: {
-            type: 'text',
-            "key": true
-        },
-        customerid: {
+        customerId: {
             type: 'text'
         },
 
-        dateDeactivated: {
+        validFrom: {
             type: 'date'
         },
 
-        lastModified: {
+        validTill: {
             type: 'date'
         },
+    }),
 
-        userid: {
+    userDepartmentRels: db.define('userDepartmentRels', {
+
+        id: {
             type: 'text',
         },
 
-        departmentid: {
+        customerId: {
+            type: 'text'
+        },
+
+        userId: {
+            type: 'text',
+        },
+
+        departmentId: {
             type: 'text',
         },
 
@@ -153,15 +154,15 @@ var schemas = {
             type: 'text'
         },
 
-        startrecording: {
+        startRecording: {
             type: 'date'
         },
 
-        endrecording: {
+        endRecording: {
             type: 'date'
         },
 
-        customerid: {
+        customerId: {
             type: 'text'
         },
 
@@ -172,7 +173,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
         dateDeactivated: {
@@ -200,7 +201,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
         dateDeactivated: {
@@ -211,7 +212,7 @@ var schemas = {
             type: 'date'
         },
 
-        departmentid: {
+        departmentId: {
             type: 'text'
         },
 
@@ -220,7 +221,7 @@ var schemas = {
         },
 
         start: {
-            type: 'date'
+            type: 'number'
         },
 
         duration: {
@@ -270,7 +271,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
         dateDeactivated: {
@@ -289,22 +290,18 @@ var schemas = {
 
     dutyTypeServiceRels: db.define('dutyTypeServiceRels', {
 
-        dateDeactivated: {
-            type: 'date'
+        id: {
+            type: 'text',
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
 
-        lastModified: {
-            type: 'date'
-        },
-
-        dutyTypeid: {
+        dutyTypeId: {
             type: 'text'
         },
 
-        serviceid: {
+        serviceId: {
             type: 'text'
         },
 
@@ -315,7 +312,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
 
@@ -351,15 +348,19 @@ var schemas = {
             type: 'number'
         },
 
-        userid: {
+        userId: {
             type: 'text'
         },
 
-        serviceid: {
+        departmentId: {
             type: 'text'
         },
 
-        dutyTypeid: {
+        serviceId: {
+            type: 'text'
+        },
+
+        dutyTypeId: {
             type: 'text'
         },
 
@@ -375,15 +376,15 @@ var schemas = {
             type: 'number'
         },
 
-        percToBefore: {
+        perctoBefore: {
             type: 'date'
         },
 
-        percToDuring: {
+        perctoDuring: {
             type: 'date'
         },
 
-        percToAfter: {
+        perctoAfter: {
             type: 'date'
         },
 
@@ -394,7 +395,7 @@ var schemas = {
             type: 'text',
             "key": true
         },
-        customerid: {
+        customerId: {
             type: 'text'
         },
         dateDeactivated: {
@@ -405,12 +406,12 @@ var schemas = {
             type: 'date'
         },
 
-        serviceid: {
+        serviceId: {
             type: 'text'
         },
 
         start: {
-            type: 'date'
+            type: 'number'
         },
 
         duration: {
@@ -420,6 +421,7 @@ var schemas = {
         staff: {
             type: 'number'
         },
+		
         date: {
             type: 'date'
         },

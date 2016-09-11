@@ -92,7 +92,7 @@ holiday.add = function(data, cb) {
 
                 newRecord.id = data.payload.id;
                 newRecord.date = data.payload.date;
-                newRecord.customerid = data.customerid;
+                newRecord.customerId = data.customerid;
                 newRecord.dateDeactivated = "9999-12-31 00:00:00";
                 newRecord.lastModified = new Date().toMysqlFormat();
                 holiday.schema.create(newRecord, function(err, results) {
@@ -118,13 +118,6 @@ holiday.add = function(data, cb) {
 
 holiday.getMany = function(query, cb) {
     var reqCustomerState;
-    if (!query.payload || !query.payload.year) {
-        return cb({
-            status: 409,
-            message: "Missing field in payload: year",
-            customerid: query.customerid
-        });
-    }
     if (!query.customerid) {
         return cb({
             status: 409,
@@ -132,28 +125,46 @@ holiday.getMany = function(query, cb) {
             customerid: query.customerid
         });
     }
-    query.year = query.payload.year;
 
     if (!query.lastModified) {
-        query.lastModified = 0;
+        query.lastModified = new Date().toMysqlFormat();
     }
 
-    customer.schema.find({
-        id: query.customerid
-    }, function(err, results) {
-        reqCustomerState = results[0].state;
-        query.state = reqCustomerState;
-        holidayCalc.calc(query, function(err) {
-            if (err) throw err;
-            db.driver.execQuery("SELECT * FROM holidays WHERE (customerid = ? OR customerid is NULL) AND YEAR(date) = ? AND (state = ? OR state = 0) AND lastModified >= ?", [query.customerid, query.payload.year, reqCustomerState, query.lastModified], function(err, results) {
-                return cb({
-                    status: 200,
-                    payload: results,
-                    customerid: query.customerid
-                });
-            });
-        });
-    });
+    customer.schema.find(
+		{
+			id: query.customerid
+		},
+		function(err, results)
+		{
+			reqCustomerState = results[0].state;
+			query.state = reqCustomerState;
+			holidayCalc.calc(query, function(err)
+			{
+				var date = new Date(query.lastModified);
+				
+				console.log(query.customerid);
+				console.log(date.getFullYear());
+				console.log(reqCustomerState);
+				console.log(query.lastModified);
+				
+				db.driver.execQuery("SELECT * FROM holidays WHERE (customerid = ? OR customerid = '') AND YEAR(date) >= ? AND (state = ? OR state = 0) AND lastModified >= ?", 
+					[query.customerid, date.getFullYear(), reqCustomerState, query.lastModified],
+					function(err, results) {
+						
+						console.log("query: " + err);
+						console.log("query: " + results);
+						
+						return cb({
+							status: 200,
+							payload: results,
+							message: results.length + " datasets",
+							customerid: query.customerid
+						});
+					}
+				);
+			});
+		}
+	);
 };
 
 // expose to app

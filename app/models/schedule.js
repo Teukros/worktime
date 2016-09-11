@@ -13,15 +13,15 @@ schedule.schema = schemas.schedules;
 schedule.add = function(data, cb) {
     var payload = data.payload,
         query = {};
-    query.customerid = data.customerid;
+    query.customerId = data.customerid;
     query.id = data.payload.id;
-
-    dbModel.add(query, payload, schedule, cb);
+	
+	dbModel.add(query, payload, schedule, cb);
 };
 
 
 schedule.getMany = function(data, cb) {
-    query.customerid = data.customerid;
+    query.customerId = data.customerid;
     query.lastModified = data.lastModified;
     dbModel.getMany(query, "schedules", cb);
 };

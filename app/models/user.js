@@ -11,21 +11,29 @@ user.schema = schemas.users;
 
 
 user.add = function(data, cb) {
+	console.log("....here I am....")
     var payload = data.payload,
         query = {};
-    query.customerid = data.customerid;
+    query.customerId = data.customerid;
     query.id = data.payload.id;
 
     dbModel.add(query, payload, user, cb);
 };
 
 
-user.getMany = function(data, cb) {
-    query.customerid = data.customerid;
-    query.lastModified = data.lastModified;
-    dbModel.getMany(query, 'users', cb);
+user.getUserByName = function(data, cb) {
+	console.log(data);
+    query.customerId = data.customerid;
+    query.username = data.userName;
+    dbModel.getUserByName(query, 'users', cb);
 };
 
+user.getMany = function(data, cb) {
+    query.customerId = data.customerid;
+    query.lastModified = data.lastModified;
+
+    dbModel.getMany(query, "users", cb);
+};
 
 
 // expose to app
