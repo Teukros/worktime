@@ -4,7 +4,7 @@ USE mydb;
 
 CREATE TABLE customers (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 company VARCHAR(30) DEFAULT NULL,
 department VARCHAR(60) DEFAULT NULL,
@@ -16,27 +16,27 @@ state INT(10) DEFAULT NULL
 
 CREATE TABLE settings (
 customerid VARCHAR(100) NOT NULL,
-settingskey VARCHAR(30) NOT NULL,
-settingsvalue VARCHAR(30) NOT NULL
+settingsKey VARCHAR(30) NOT NULL,
+settingsValue VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE users (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
 customerid VARCHAR(100) DEFAULT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 username VARCHAR(30) DEFAULT NULL,
 password VARCHAR(60),
-isadmin INT(5) DEFAULT NULL,
+isAdmin INT(5) DEFAULT NULL,
 salutation INT(5) DEFAULT NULL,
 title INT(5) DEFAULT NULL,
-name VARCHAR(30) DEFAULT NULL,
-surname VARCHAR(30) DEFAULT NULL,
-position VARCHAR(30) DEFAULT NULL,
+name VARCHAR(60) DEFAULT NULL,
+surname VARCHAR(100) DEFAULT NULL,
+position VARCHAR(60) DEFAULT NULL,
 phone VARCHAR(30) DEFAULT NULL,
-email VARCHAR(30) DEFAULT NULL,
-validfrom DATETIME,
-validtill DATETIME,
+email VARCHAR(100) DEFAULT NULL,
+validFrom DATETIME,
+validTill DATETIME,
 FOREIGN KEY (customerid) REFERENCES customers(id)
 );
 
@@ -46,19 +46,18 @@ FOREIGN KEY (customerid) REFERENCES customers(id)
 CREATE TABLE holidays (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
 customerid VARCHAR(100) DEFAULT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 name VARCHAR(60),
 state INT(10) DEFAULT NULL,
-date DATETIME DEFAULT NULL,
-FOREIGN KEY (customerid) REFERENCES customers(id)
+date DATETIME DEFAULT NULL
 );
 
 
 CREATE TABLE departments (
 customerid VARCHAR(100) DEFAULT NULL,
 id VARCHAR(100) NOT NULL PRIMARY KEY,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 name VARCHAR(60),
 startRecording DATETIME DEFAULT NULL,
@@ -68,25 +67,20 @@ FOREIGN KEY (customerid) REFERENCES customers(id)
 
 
 CREATE TABLE userDepartmentRels (
-id VARCHAR(100) NOT NULL PRIMARY KEY,
-customerid VARCHAR(100) DEFAULT NULL,
-userid VARCHAR(100) NOT NULL,
-departmentid VARCHAR(60) NOT NULL,
-datedeactivated DATETIME DEFAULT NULL,
-lastModified DATETIME,
-FOREIGN KEY (userid) REFERENCES users(id),
-FOREIGN KEY (departmentid) REFERENCES departments(id),
-FOREIGN KEY (customerid) REFERENCES customers(id)
+id INT AUTO_INCREMENT PRIMARY KEY,
+customerId VARCHAR(100) DEFAULT NULL,
+userId VARCHAR(100) NOT NULL,
+departmentId VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE services (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
 customerid VARCHAR(100) DEFAULT NULL,
 departmentid VARCHAR(100) DEFAULT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 name VARCHAR(60),
-start DATETIME DEFAULT NULL,
+start INT(24) DEFAULT NULL,
 duration INT(24) DEFAULT NULL,
 staff INT(5) DEFAULT NULL,
 holiday INT(5) DEFAULT NULL,
@@ -104,7 +98,7 @@ FOREIGN KEY (customerid) REFERENCES customers(id)
 CREATE TABLE dutyTypes (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
 customerid VARCHAR(100) DEFAULT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 name VARCHAR(60) DEFAULT NULL,
 FOREIGN KEY (customerid) REFERENCES customers(id)
@@ -112,25 +106,21 @@ FOREIGN KEY (customerid) REFERENCES customers(id)
 
 
 CREATE TABLE dutyTypeServiceRels (
-id VARCHAR(100) NOT NULL PRIMARY KEY,
-customerid VARCHAR(100) DEFAULT NULL,
-dutyTypeid VARCHAR(100) NOT NULL,
-serviceid VARCHAR(100) NOT NULL,
-datedeactivated DATETIME DEFAULT NULL,
-lastModified DATETIME,
-FOREIGN KEY (dutyTypeid) REFERENCES dutyTypes(id),
-FOREIGN KEY (serviceid) REFERENCES services(id),
-FOREIGN KEY (customerid) REFERENCES customers(id)
+id INT AUTO_INCREMENT PRIMARY KEY,
+customerId VARCHAR(100) DEFAULT NULL,
+dutyTypeId VARCHAR(100) NOT NULL,
+serviceId VARCHAR(100) NOT NULL
 );
 
 
 CREATE TABLE performedServices (
-customerid VARCHAR(100) DEFAULT NULL,
 id VARCHAR(100) NOT NULL PRIMARY KEY,
-userid VARCHAR(100) NOT NULL,
-serviceid VARCHAR(100) NOT NULL,
-dutyTypeid VARCHAR(100) NOT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+customerId VARCHAR(100) DEFAULT NULL,
+userId VARCHAR(100) NOT NULL,
+serviceId VARCHAR(100) NOT NULL,
+dutyTypeId VARCHAR(100) NOT NULL,
+departmentId VARCHAR(100) NOT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 scheduledStart DATETIME DEFAULT NULL,
 actualStart DATETIME DEFAULT NULL,
@@ -138,26 +128,26 @@ duration INT(24) DEFAULT NULL,
 isHoliday INT(5) DEFAULT NULL,
 leadInMinutes INT(24) DEFAULT NULL,
 leadOutMinutes INT(24) DEFAULT NULL,
-FOREIGN KEY (userid) REFERENCES users(id),
-FOREIGN KEY (dutyTypeid) REFERENCES dutyTypes(id),
-FOREIGN KEY (serviceid) REFERENCES services(id),
+FOREIGN KEY (userId) REFERENCES users(id),
+FOREIGN KEY (dutyTypeId) REFERENCES dutyTypes(id),
+FOREIGN KEY (serviceId) REFERENCES services(id),
 minsBefore INT(24) DEFAULT NULL,
 minsDuring INT(24) DEFAULT NULL,
 minsAfter INT(24) DEFAULT NULL,
 percToBefore FLOAT DEFAULT NULL,
 percToDuring FLOAT DEFAULT NULL,
 percToAfter FLOAT DEFAULT NULL,
-FOREIGN KEY (customerid) REFERENCES customers(id)
+FOREIGN KEY (customerId) REFERENCES customers(id)
 );
 
 CREATE TABLE schedules (
 id VARCHAR(100) NOT NULL PRIMARY KEY,
 customerid VARCHAR(100) DEFAULT NULL,
 serviceid VARCHAR(100) NOT NULL,
-datedeactivated DATETIME DEFAULT NULL,
+dateDeactivated DATETIME DEFAULT NULL,
 lastModified DATETIME,
 FOREIGN KEY (serviceid) REFERENCES services(id),
-start DATETIME DEFAULT NULL,
+start INT(24) DEFAULT NULL,
 duration INT(24) DEFAULT NULL,
 staff INT(5) DEFAULT NULL,
 date DATETIME DEFAULT NULL,
