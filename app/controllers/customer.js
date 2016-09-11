@@ -1,5 +1,5 @@
 var db = require('orm').db,
-    Customer = require('../models/customer'),
+    Customer = require('../models/customer.js'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true

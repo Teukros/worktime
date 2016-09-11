@@ -13,11 +13,18 @@ apiRoutes.route('/set')
         });
     });
 
+apiRoutes.route('/getuser')
+    .post(function(req, res) {
+        User.getUserByName(req.body, function(cb) {
+            resp.send(cb, res);
+        });
+    });
+
 apiRoutes.route('/get')
     .post(function(req, res) {
         User.getMany(req.body, function(cb) {
             resp.send(cb, res);
         });
     });
-
+	
 module.exports = apiRoutes;

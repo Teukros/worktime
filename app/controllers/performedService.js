@@ -1,5 +1,5 @@
 var db = require('orm').db,
-    performedService = require('../models/performedService'),
+    performedService = require('../models/performedService.js'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true

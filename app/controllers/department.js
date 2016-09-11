@@ -1,5 +1,5 @@
 var db = require('orm').db,
-    department = require('../models/department'),
+    department = require('../models/department.js'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
