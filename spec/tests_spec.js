@@ -1,7 +1,12 @@
 var frisby = require('frisby'),
     async = require('async'),
     url = 'http://localhost:3000/',
-    timeoutLength = 5000;
+    timeoutLength = 5000,
+    idNumberGen = function(previousIdNumber){
+        previousIdNumber = previousIdNumber++;
+        return previousIdNumber;
+    };
+    previousIdNumber = 0;
 
 frisby.create("Set new customer")
     .waits(timeoutLength)
