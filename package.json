@@ -13,7 +13,7 @@
     "frisby": "^0.8.5",
     "jade": "~0.34.0",
     "jasmine-node": "^1.14.5",
-    "mysql": "^2.0.0-alpha8",
+    "mysql": "^2.0.0",
     "orm": "^2.1.30"
   },
   "devDependencies": {

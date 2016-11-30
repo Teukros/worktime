@@ -26,7 +26,6 @@ settings.add = function(data, cb) {
 
     settings.schema.find(query, function(err, results) {
         if (err) {
-            console.log(err)
             return cb({
                 status: 500,
                 message: err,
@@ -47,7 +46,6 @@ settings.add = function(data, cb) {
             updatedRecord.settingsValue = data.value;
             updatedRecord.save(function(err) {
                 if (err) {
-                    console.log(err);
                     return cb({
                         status: 500,
                         message: err,
@@ -71,7 +69,6 @@ settings.add = function(data, cb) {
 
             settings.schema.create(newRecord, function(err, results) {
                 if (err) {
-                    console.log(err);
                     return cb({
                         status: 500,
                         message: err,
@@ -94,7 +91,6 @@ settings.getMany = function(data, cb) {
 
     settings.schema.find(query, function(err, results) {
         if (err) {
-            console.log(err);
             return cb({
                 status: 500,
                 message: err,

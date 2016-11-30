@@ -11,7 +11,6 @@ user.schema = schemas.users;
 
 
 user.add = function(data, cb) {
-	console.log("....here I am....")
     var payload = data.payload,
         query = {};
     query.customerId = data.customerid;
@@ -22,7 +21,6 @@ user.add = function(data, cb) {
 
 
 user.getUserByName = function(data, cb) {
-	console.log(data);
     query.customerId = data.customerid;
     query.username = data.userName;
     dbModel.getUserByName(query, 'users', cb);

@@ -81,7 +81,6 @@ dbModel.add = function(query, payload, model, cb) {
                 newRecord.dateDeactivated = "9999-12-31 00:00:00";
                 newRecord.lastModified = new Date().toMysqlFormat();
                 for (var field in payload) {
-console.log(field + ": " + payload[field]);
                     newRecord[field] = payload[field];
                 }
                 if (!newRecord.id) {
@@ -92,8 +91,6 @@ console.log(field + ": " + payload[field]);
                     });
                 }
                 model.schema.create(newRecord, function(err, results) {
-console.log(err);
-console.log(results);
                     if (err) {
                         return cb({
                             status: 500,
@@ -118,9 +115,6 @@ dbModel.getMany = function(query, model, cb) {
     if (!query.lastModified || query.lastModified === "" ||query.lastModified === undefined) {
         query.lastModified = 0;
     }
-console.log(query.customerId);
-console.log(query.lastModified);
-console.log(query.userId);
 	
 	var sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ?";
 	var selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59"];
@@ -130,9 +124,7 @@ console.log(query.userId);
 		sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ? AND userId = ?";
 		selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59", query.userId];
 	}
-console.log(sql);
-console.log(selectionArgs);
-	
+
     db.driver.execQuery(sql, selectionArgs, function(err, results) {
         if (err) {
             return cb({

@@ -9,7 +9,7 @@ var config = {
       name: 'genmvc'
     },
     port: 3000,
-    db: 'mysql://user:password@localhost/mydb'
+    db: 'mysql://golden:password@localhost/mydb'
   },
 
   test: {

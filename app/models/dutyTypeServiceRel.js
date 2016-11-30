@@ -40,7 +40,6 @@ dutyTypeServiceRel.add = function(data, cb) {
     if (deleteFlag === false) {
         dutyTypeServiceRel.schema.create(payload, function(err, results) {
             if (err) {
-                console.log(err);
                 return cb({
                     status: 500,
                     message: err,

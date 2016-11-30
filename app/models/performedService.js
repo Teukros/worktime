@@ -15,7 +15,6 @@ performedService.add = function(data, cb) {
         query = {};
     query.customerId = data.customerid;
     query.id = data.payload.id;
-console.log(query);	
     dbModel.add(query, payload, performedService, cb);
 };
 
@@ -26,8 +25,6 @@ performedService.getMany = function(data, cb) {
     }
     query.customerId = data.customerid;
     query.lastModified = data.lastModified;
-console.log("-------------performedService.getMany-----------");
-console.log(query);	
     dbModel.getMany(query, "performedServices", cb);
 };
 

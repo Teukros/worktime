@@ -54,7 +54,6 @@ holiday.add = function(data, cb) {
                 updatedRecord.lastModified = new Date().toMysqlFormat();
                 updatedRecord.save(function(err) {
                     if (err) {
-                        console.log(err);
                         return cb({
                             status: 500,
                             message: err,
@@ -97,7 +96,6 @@ holiday.add = function(data, cb) {
                 newRecord.lastModified = new Date().toMysqlFormat();
                 holiday.schema.create(newRecord, function(err, results) {
                     if (err) {
-                        console.log(err);
                         return cb({
                             status: 500,
                             message: err,
@@ -142,18 +140,10 @@ holiday.getMany = function(query, cb) {
 			{
 				var date = new Date(query.lastModified);
 				
-				console.log(query.customerid);
-				console.log(date.getFullYear());
-				console.log(reqCustomerState);
-				console.log(query.lastModified);
-				
 				db.driver.execQuery("SELECT * FROM holidays WHERE (customerid = ? OR customerid = '') AND YEAR(date) >= ? AND (state = ? OR state = 0) AND lastModified >= ?", 
 					[query.customerid, date.getFullYear(), reqCustomerState, query.lastModified],
 					function(err, results) {
-						
-						console.log("query: " + err);
-						console.log("query: " + results);
-						
+
 						return cb({
 							status: 200,
 							payload: results,
