@@ -1,17 +1,19 @@
-var orm = require('orm'),
-    db = require('orm').db;
+'use strict';
 
-var schemas = require('./schemas');
+const orm = require('orm'),
+    db = require('orm').db,
+    schemas = require('./schemas');
 
-var Customer = {};
+class Customer {
 
 Customer.schema = schemas.customers;
 
 
-Customer.add = function(data, cb) {
-    var newRecord = {};
+static add (data, cb) {
+    const newRecord = {},
+        areFieldsMissing = !data || !data.payload || !data.payload.id;
 
-    if (!data || !data.payload || !data.payload.id) {
+    if (areFieldsMissing) {
         return cb({
             status: 400,
             message: 'Required fields are missing'
@@ -109,6 +111,8 @@ Customer.getMany = function(query, cb) {
       }
     });
 };
+
+}
 
 // expose to app
 module.exports = Customer;
