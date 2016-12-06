@@ -1,71 +1,69 @@
-var orm = require('orm'),
-    db = require('orm').db,
+const db = require('orm').db,
     schemas = require('../models/schemas'),
-    feiertagejs = require('feiertagejs');
+    feiertagejs = require('feiertagejs'),
+    holiday = {},
+    holidayCalc = {},
+    stateTranslate = [{
+        "fullName": "National",
+        "shortName": "BUND"
+    }, {
+        "fullName": "Bayern",
+        "shortName": "BY"
+    }, {
+        "fullName": "Baden-Württemberg",
+        "shortName": "BW"
+    }, {
+        "fullName": "Berlin",
+        "shortName": "BE"
+    }, {
+        "fullName": "Brandenburg",
+        "shortName": "BB"
+    }, {
+        "fullName": "Bremen",
+        "shortName": "HB"
+    }, {
+        "fullName": "Hamburg",
+        "shortName": "HH"
+    }, {
+        "fullName": "Hessen",
+        "shortName": "HE"
+    }, {
+        "fullName": "Mecklenburg-Vorpommern",
+        "shortName": "MV"
+    }, {
+        "fullName": "Nordrhein-Westfalen",
+        "shortName": "NW"
+    }, {
+        "fullName": "Niedersachsen",
+        "shortName": "NI"
+    }, {
+        "fullName": "Rheinland-Pfalz",
+        "shortName": "RP"
+    }, {
+        "fullName": "Saarland",
+        "shortName": "SL"
+    }, {
+        "fullName": "Sachsen",
+        "shortName": "SN"
+    }, {
+        "fullName": "Sachsen-Anhalt",
+        "shortName": "ST"
+    }, {
+        "fullName": "Schleswig-Holstein",
+        "shortName": "SH"
+    }, {
+        "fullName": "Thüringen",
+        "shortName": "TH"
+    }];
 
-var stateTranslate = [{
-    "fullName": "National",
-    "shortName": "BUND"
-}, {
-    "fullName": "Bayern",
-    "shortName": "BY"
-}, {
-    "fullName": "Baden-Württemberg",
-    "shortName": "BW"
-}, {
-    "fullName": "Berlin",
-    "shortName": "BE"
-}, {
-    "fullName": "Brandenburg",
-    "shortName": "BB"
-}, {
-    "fullName": "Bremen",
-    "shortName": "HB"
-}, {
-    "fullName": "Hamburg",
-    "shortName": "HH"
-}, {
-    "fullName": "Hessen",
-    "shortName": "HE"
-}, {
-    "fullName": "Mecklenburg-Vorpommern",
-    "shortName": "MV"
-}, {
-    "fullName": "Nordrhein-Westfalen",
-    "shortName": "NW"
-}, {
-    "fullName": "Niedersachsen",
-    "shortName": "NI"
-}, {
-    "fullName": "Rheinland-Pfalz",
-    "shortName": "RP"
-}, {
-    "fullName": "Saarland",
-    "shortName": "SL"
-}, {
-    "fullName": "Sachsen",
-    "shortName": "SN"
-}, {
-    "fullName": "Sachsen-Anhalt",
-    "shortName": "ST"
-}, {
-    "fullName": "Schleswig-Holstein",
-    "shortName": "SH"
-}, {
-    "fullName": "Thüringen",
-    "shortName": "TH"
-}];
 
-var holiday = {};
 holiday.schema = schemas.holidays;
 
-var holidayCalc = {};
-
-holidayCalc.calc = function(request, call) {
+holidayCalc.calc = (request, call) => {
     // curDate = new Date();
     // request.year = curDate.getFullYear();
 
-    calculate(0, request.year, function(err, cb) {
+    calculate(0, request.year, (err, cb) => {
         if (err) {
             return call({
                 status: 500,
@@ -73,7 +71,7 @@ holidayCalc.calc = function(request, call) {
                 customerId: request.customerid
             });
         }
-        calculate(0, request.year + 1, function(err, cb) {
+        calculate(0, request.year + 1, (err, cb) => {
             if (err) {
                 return call({
                     status: 500,
@@ -81,7 +79,7 @@ holidayCalc.calc = function(request, call) {
                     customerId: request.customerid
                 });
             }
-            calculate(request.state, request.year, function(err, cb) {
+            calculate(request.state, request.year, (err, cb) => {
                 if (err) {
                     return call({
                         status: 500,
@@ -89,9 +87,7 @@ holidayCalc.calc = function(request, call) {
                         customerId: request.customerid
                     });
                 }
-
-
-                calculate(request.state, request.year + 1, function(err, cb) {
+                calculate(request.state, request.year + 1, (err, cb) => {
                     if (err) {
                         return call({
                             status: 500,
@@ -111,8 +107,8 @@ holidayCalc.calc = function(request, call) {
     });
 };
 
-var calculate = function(state, year, cb) {
-    db.driver.execQuery("SELECT * FROM holidays WHERE YEAR(date) = ? AND state = ?", [year, state], function(err, results) {
+var calculate = function (state, year, cb) {
+    db.driver.execQuery("SELECT * FROM holidays WHERE YEAR(date) = ? AND state = ?", [year, state], (err, result) => {
         if (err) {
             cb({
                 status: 500,
@@ -136,7 +132,7 @@ var calculate = function(state, year, cb) {
                 dayToSave.id = Date.now().toString() + i.toString();
                 dayToSave.lastModified = new Date().toMysqlFormat();
 
-                holiday.schema.create(dayToSave, function(err, dayToSave) {
+                holiday.schema.create(dayToSave, function (err, dayToSave) {
                     if (err) {
                         return cb({
                             status: 500,

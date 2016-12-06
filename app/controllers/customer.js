@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    Customer = require('../models/customer.js'),
+const Customer = require('../models/customer.js'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,15 +6,15 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        Customer.add(req.body, function(cb) {
+    .post((req, res) => {
+        Customer.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        Customer.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        Customer.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

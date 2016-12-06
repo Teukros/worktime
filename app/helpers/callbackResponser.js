@@ -1,8 +1,7 @@
-'use strict';
 
 class CallbackResponser {
 
-    static do(error, result, callback){
+    static do(error, result, callback) {
 
         const hasError = !!error;
 
@@ -15,7 +14,7 @@ class CallbackResponser {
         };
 
         const callbackResult = callback(response);
-        //  hasError ? callback(response) : callback(null, response);
+        hasError ? callback(response) : callback(null, response);
 
         return callbackResult;
     }

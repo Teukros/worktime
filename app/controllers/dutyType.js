@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    dutyType = require('../models/dutyType'),
+const dutyType = require('../models/dutyType'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,15 +6,15 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        dutyType.add(req.body, function(cb) {
+    .post((req, res) => {
+        dutyType.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        dutyType.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        dutyType.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

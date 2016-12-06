@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    schedule = require('../models/schedule'),
+const schedule = require('../models/schedule'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,15 +6,15 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        schedule.add(req.body, function(cb) {
+    .post((req, res) => {
+        schedule.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        schedule.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        schedule.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

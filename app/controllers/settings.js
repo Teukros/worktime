@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    settings = require('../models/settings'),
+const settings = require('../models/settings'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,15 +6,15 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        settings.add(req.body, function(cb) {
+    .post((req, res) => {
+        settings.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        settings.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        settings.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

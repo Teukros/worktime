@@ -1,12 +1,11 @@
-var orm = require('orm'),
-    db = require('orm').db;
+var db = require('orm').db;
 
 var schemas = require('../models/schemas');
 // var resp = require('./responser');
 
 var dbModel = {};
 
-dbModel.add = function(query, payload, model, cb) {
+dbModel.add = (query, payload, model, cb) => {
     var newRecord = {},
         updatedRecord = {};
     //! or undefined
@@ -18,10 +17,8 @@ dbModel.add = function(query, payload, model, cb) {
         });
     }
 
-    model.schema.find(query, function(err, results) {
+    model.schema.find(query, (err, results) => {
 
-//console.log(err);
-//console.log(results);
         if (err) {
             return cb({
                 status: 500,
@@ -46,7 +43,7 @@ dbModel.add = function(query, payload, model, cb) {
 
             updatedRecord.lastModified = new Date().toMysqlFormat();
             updatedRecord.customerId = query.customerId;
-            updatedRecord.save(function(err) {
+            updatedRecord.save((err) => {
                 if (err) {
                     return cb({
                         status: 500,
@@ -66,10 +63,8 @@ dbModel.add = function(query, payload, model, cb) {
         if (results.length === 0) {
             schemas.customers.find({
                 id: query.customerId
-            }, function(err, results) {
-//console.log(err);
-//console.log(results);
-				
+            }, (err, results) => {
+
                 if (results.length === 0) {
                     return cb({
                         status: 409,
@@ -90,7 +85,7 @@ dbModel.add = function(query, payload, model, cb) {
                         customerid: query.customerId
                     });
                 }
-                model.schema.create(newRecord, function(err, results) {
+                model.schema.create(newRecord, (err, result) => {
                     if (err) {
                         return cb({
                             status: 500,
@@ -110,22 +105,21 @@ dbModel.add = function(query, payload, model, cb) {
 };
 
 
-dbModel.getMany = function(query, model, cb) {
+dbModel.getMany = (query, model, cb) => {
 
-    if (!query.lastModified || query.lastModified === "" ||query.lastModified === undefined) {
+    if (!query.lastModified || query.lastModified === "" || query.lastModified === undefined) {
         query.lastModified = 0;
     }
-	
-	var sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ?";
-	var selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59"];
-	
-	if (!(query.userId === undefined) && !(query.userId === ""))
-	{	
-		sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ? AND userId = ?";
-		selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59", query.userId];
-	}
 
-    db.driver.execQuery(sql, selectionArgs, function(err, results) {
+    var sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ?";
+    var selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59"];
+
+    if (!(query.userId === undefined) && !(query.userId === "")) {
+        sql = "SELECT * FROM " + model + " WHERE customerid = ? AND lastModified >= ? AND dateDeactivated = ? AND userId = ?";
+        selectionArgs = [query.customerId, query.lastModified, "9999-12-31 23:59:59", query.userId];
+    }
+
+    db.driver.execQuery(sql, selectionArgs, (err, results) => {
         if (err) {
             return cb({
                 status: 500,
@@ -149,9 +143,9 @@ dbModel.getMany = function(query, model, cb) {
     });
 };
 
-dbModel.getRelationships = function(query, model, cb) {
+dbModel.getRelationships = (query, model, cb) => {
 
-    db.driver.execQuery("SELECT * FROM " + model + " WHERE customerId = ?", [query.customerId], function(err, results) {
+    db.driver.execQuery("SELECT * FROM " + model + " WHERE customerId = ?", [query.customerId], (err, results) => {
         if (err) {
             return cb({
                 status: 500,
@@ -175,9 +169,9 @@ dbModel.getRelationships = function(query, model, cb) {
     });
 };
 
-dbModel.getUserByName = function(query, model, cb) {
+dbModel.getUserByName = (query, model, cb) => {
 
-    db.driver.execQuery("SELECT * FROM " + model + " WHERE username = ? AND customerid = ?", [query.username, query.customerId], function(err, results) {
+    db.driver.execQuery("SELECT * FROM " + model + " WHERE username = ? AND customerid = ?", [query.username, query.customerId], (err, result) => {
         if (err) {
             return cb({
                 status: 500,

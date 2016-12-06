@@ -1,68 +1,69 @@
-var orm = require('orm'),
-    db = require('orm').db;
+const schemas = require('./schemas'),
+    dbModel = require('../helpers/dbModel.js'),
+    dutyTypeServiceRelModel = {};
 
-var schemas = require('./schemas'),
-    dbModel = require('../helpers/dbModel.js');
+let query = {};
 
-var dutyTypeServiceRel = {},
-    query = {};
+dutyTypeServiceRelModel.schema = schemas.dutyTypeServiceRels;
 
-dutyTypeServiceRel.schema = schemas.dutyTypeServiceRels;
+class DutyTypeServiceRel {
 
+    static add(data, cb) {
+        query = {};
+        query.customerId = data.customerid;
+        query.serviceId = data.payload.serviceId;
 
-dutyTypeServiceRel.add = function(data, cb) {
-    query = {};
-    query.customerId = data.customerid;
-    query.serviceId = data.payload.serviceId;
+        var payload = data.payload;
+        payload.customerId = data.customerid;
+        var deleteFlag = data.trueDelete;
 
-    var payload = data.payload;
-	payload.customerId = data.customerid;
-    var deleteFlag = data.trueDelete;
+        if (deleteFlag) {
+            dutyTypeServiceRelModel.schema.find(query).remove(function () { });
 
-    if (deleteFlag === true) {
-        dutyTypeServiceRel.schema.find(query).remove(function(err) { console.log(err); });
-
-		dutyTypeServiceRel.schema.create(payload, function(err, results) {
-			if (err) {
-				return cb({
-					status: 500,
-					message: err,
-					customerid: query.customerId
-				});
-			}
-			return cb({
-				status: 201,
-				message: results,
-				customerid: query.customerId
-			});
-		});
-    }
-    if (deleteFlag === false) {
-        dutyTypeServiceRel.schema.create(payload, function(err, results) {
-            if (err) {
+            dutyTypeServiceRelModel.schema.create(payload, (err, result) => {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err,
+                        customerid: query.customerId
+                    });
+                }
                 return cb({
-                    status: 500,
-                    message: err,
+                    status: 201,
+                    message: results,
                     customerid: query.customerId
                 });
-            }
-            return cb({
-                status: 201,
-                message: results,
-                customerid: query.customerId
             });
-        });
-    } else {
-        return;
-    }
-};
+        }
+        if (!deleteFlag) {
+            dutyTypeServiceRelModel.schema.create(payload, (err, result) => {
+                if (err) {
+                    return cb({
+                        status: 500,
+                        message: err,
+                        customerid: query.customerId
+                    });
+                }
+                return cb({
+                    status: 201,
+                    message: results,
+                    customerid: query.customerId
+                });
+            });
+        } else {
+            return;
+        }
+    };
 
-dutyTypeServiceRel.getMany = function(data, cb) {
-    query.customerId = data.customerid;
+    static getMany(data, cb) {
+        query.customerId = data.customerid;
 
-    dbModel.getRelationships(query, "dutyTypeServiceRels", cb);
-};
+        dbModel.getRelationships(query, "dutyTypeServiceRels", cb);
+    };
+
+
+}
 
 
 // expose to app
-module.exports = dutyTypeServiceRel;
+module.exports = DutyTypeServiceRel;

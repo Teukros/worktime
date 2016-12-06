@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    login = require('../models/login'),
+const login = require('../models/login'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,8 +6,8 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('')
-    .post(function(req, res) {
-        login.check(req.body, function(cb) {
+    .post((req, res) => {
+        login.check(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

@@ -1,32 +1,26 @@
-var orm = require('orm'),
-    db = require('orm').db;
-
-var schemas = require('./schemas'),
-    dbModel = require('../helpers/dbModel.js');
-
-var department = {},
+const schemas = require('./schemas'),
+    dbModel = require('../helpers/dbModel.js'),
+    departmentModel = {},
     query = {};
 
-department.schema = schemas.departments;
+departmentModel.schema = schemas.departments;
 
+class Department {
+    static add(data, cb) {
+        const payload = data.payload;
 
-department.add = function(data, cb) {
-    var payload = data.payload,
-        query = {};
-    query.customerId = data.customerid;
-    query.id = data.payload.id;
+        query.customerId = data.customerid;
+        query.id = data.payload.id;
 
-    dbModel.add(query, payload, department, cb);
-};
+        dbModel.add(query, payload, departmentModel, cb);
+    };
 
-
-department.getMany = function(data, cb) {
-    query.customerId = data.customerid;
-    query.lastModified = data.lastModified;
-    dbModel.getMany(query, "departments", cb);
-};
-
-
+    static getMany(data, cb) {
+        query.customerId = data.customerid;
+        query.lastModified = data.lastModified;
+        dbModel.getMany(query, "departments", cb);
+    };
+}
 
 // expose to app
-module.exports = department;
+module.exports = Department;

@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    Service = require('../models/service'),
+const Service = require('../models/service'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,15 +6,15 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        Service.add(req.body, function(cb) {
+    .post((req, res) => {
+        Service.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        Service.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        Service.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });

@@ -1,32 +1,28 @@
-var orm = require('orm'),
-    db = require('orm').db;
-
-var schemas = require('./schemas'),
-    dbModel = require('../helpers/dbModel.js');
-
-var dutyType = {},
+const schemas = require('./schemas'),
+    dbModel = require('../helpers/dbModel.js'),
+    dutyTypeModel = {},
     query = {};
 
-dutyType.schema = schemas.dutyTypes;
+dutyTypeModel.schema = schemas.dutyTypes;
 
+class DutyType {
 
-dutyType.add = function(data, cb) {
-    var payload = data.payload,
-        query = {};
-    query.customerId = data.customerid;
-    query.id = data.payload.id;
+    static add (data, cb) {
+        var payload = data.payload;
+        
+        query.customerId = data.customerid;
+        query.id = data.payload.id;
 
-    dbModel.add(query, payload, dutyType, cb);
-};
+        dbModel.add(query, payload, dutyTypeModel, cb);
+    };
 
+    static getMany(data, cb) {
+        query.customerId = data.customerid;
+        query.lastModified = data.lastModified;
+        dbModel.getMany(query, "dutyTypes", cb);
+    };
 
-dutyType.getMany = function(data, cb) {
-    query.customerId = data.customerid;
-    query.lastModified = data.lastModified;
-    dbModel.getMany(query, "dutyTypes", cb);
-};
-
-
+}
 
 // expose to app
-module.exports = dutyType;
+module.exports = DutyType;

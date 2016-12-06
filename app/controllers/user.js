@@ -1,5 +1,4 @@
-var db = require('orm').db,
-    User = require('../models/user'),
+const User = require('../models/user'),
     express = require('express'),
     apiRoutes = express.Router({
         mergeParams: true
@@ -7,22 +6,22 @@ var db = require('orm').db,
     resp = require('../helpers/responser');
 
 apiRoutes.route('/set')
-    .post(function(req, res) {
-        User.add(req.body, function(cb) {
+    .post((req, res) => {
+        User.add(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/getuser')
-    .post(function(req, res) {
-        User.getUserByName(req.body, function(cb) {
+    .post((req, res) => {
+        User.getUserByName(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
 
 apiRoutes.route('/get')
-    .post(function(req, res) {
-        User.getMany(req.body, function(cb) {
+    .post((req, res) => {
+        User.getMany(req.body, (cb) => {
             resp.send(cb, res);
         });
     });
